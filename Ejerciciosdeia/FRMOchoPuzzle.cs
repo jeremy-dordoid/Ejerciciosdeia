@@ -22,21 +22,21 @@ namespace Tarea_2_ia
         {
             if (LBL10.Text == "0")
             {
-                LBL10.Text = LBL00.Text;
-                LBL00.Text = "0";
+                LBL10.Text = LBL07.Text;
+                LBL07.Text = "0";
             }
             else if (LBL01.Text == "0")
             {
-                LBL01.Text = LBL00.Text;
-                LBL00.Text = "0";
+                LBL01.Text = LBL07.Text;
+                LBL07.Text = "0";
             }
         }
 
         private void LBL10_Click(object sender, EventArgs e)
         {
-            if (LBL00.Text == "0")
+            if (LBL07.Text == "0")
             {
-                LBL00.Text = LBL10.Text;
+                LBL07.Text = LBL10.Text;
                 LBL10.Text = "0";
             }
             else if (LBL11.Text == "0")
@@ -67,9 +67,9 @@ namespace Tarea_2_ia
 
         private void LBL01_Click(object sender, EventArgs e)
         {
-            if (LBL00.Text == "0")
+            if (LBL07.Text == "0")
             {
-                LBL00.Text = LBL01.Text;
+                LBL07.Text = LBL01.Text;
                 LBL01.Text = "0";
             }
             else if (LBL11.Text == "0")
@@ -184,7 +184,7 @@ namespace Tarea_2_ia
             valores = valores.OrderBy(x => rnd.Next()).ToList();
 
   
-            LBL00.Text = valores[0];
+            LBL07.Text = valores[0];
             LBL01.Text = valores[1];
             LBL02.Text = valores[2];
             LBL10.Text = valores[3];
@@ -210,6 +210,29 @@ namespace Tarea_2_ia
                 LBLContador.Text = "";
                 contador = 0;
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            CLEstado Inicial = new CLEstado(
+       Convert.ToInt32(LBL00.Text),
+       Convert.ToInt32(LBL01.Text),
+       Convert.ToInt32(LBL02.Text),
+       Convert.ToInt32(LBL10.Text),
+       Convert.ToInt32(LBL11.Text),
+       Convert.ToInt32(LBL12.Text),
+       Convert.ToInt32(LBL20.Text),
+       Convert.ToInt32(LBL21.Text),
+       Convert.ToInt32(LBL22.Text)
+                                 );
+
+            List<CLEstado> Hijos = Inicial.GenerarHijos();
+
+        }
+
+        private void LBLContador_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

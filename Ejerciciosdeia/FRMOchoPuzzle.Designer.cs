@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.LBL00 = new System.Windows.Forms.Label();
+            this.LBL07 = new System.Windows.Forms.Label();
             this.LBL01 = new System.Windows.Forms.Label();
             this.LBL02 = new System.Windows.Forms.Label();
             this.LBL12 = new System.Windows.Forms.Label();
@@ -41,20 +41,21 @@
             this.BTNDesordenar = new System.Windows.Forms.Button();
             this.TMRRelog = new System.Windows.Forms.Timer(this.components);
             this.LBLContador = new System.Windows.Forms.Label();
+            this.Generar1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // LBL00
+            // LBL07
             // 
-            this.LBL00.BackColor = System.Drawing.Color.LightSkyBlue;
-            this.LBL00.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.LBL00.Font = new System.Drawing.Font("Microsoft Sans Serif", 50F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LBL00.Location = new System.Drawing.Point(12, 9);
-            this.LBL00.Name = "LBL00";
-            this.LBL00.Size = new System.Drawing.Size(130, 130);
-            this.LBL00.TabIndex = 0;
-            this.LBL00.Text = "1";
-            this.LBL00.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.LBL00.Click += new System.EventHandler(this.LBL00_Click);
+            this.LBL07.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.LBL07.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.LBL07.Font = new System.Drawing.Font("Microsoft Sans Serif", 50F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LBL07.Location = new System.Drawing.Point(12, 9);
+            this.LBL07.Name = "LBL07";
+            this.LBL07.Size = new System.Drawing.Size(130, 130);
+            this.LBL07.TabIndex = 0;
+            this.LBL07.Text = "1";
+            this.LBL07.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.LBL07.Click += new System.EventHandler(this.LBL00_Click);
             // 
             // LBL01
             // 
@@ -162,7 +163,7 @@
             // 
             // BTNDesordenar
             // 
-            this.BTNDesordenar.Location = new System.Drawing.Point(420, 9);
+            this.BTNDesordenar.Location = new System.Drawing.Point(420, 12);
             this.BTNDesordenar.Name = "BTNDesordenar";
             this.BTNDesordenar.Size = new System.Drawing.Size(172, 52);
             this.BTNDesordenar.TabIndex = 9;
@@ -185,12 +186,24 @@
             this.LBLContador.Size = new System.Drawing.Size(130, 130);
             this.LBLContador.TabIndex = 10;
             this.LBLContador.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.LBLContador.Click += new System.EventHandler(this.LBLContador_Click);
+            // 
+            // Generar1
+            // 
+            this.Generar1.Location = new System.Drawing.Point(420, 212);
+            this.Generar1.Name = "Generar1";
+            this.Generar1.Size = new System.Drawing.Size(172, 52);
+            this.Generar1.TabIndex = 11;
+            this.Generar1.Text = "Generar";
+            this.Generar1.UseVisualStyleBackColor = true;
+            this.Generar1.Click += new System.EventHandler(this.button1_Click);
             // 
             // FRMOchoPuzzle
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(597, 428);
+            this.Controls.Add(this.Generar1);
             this.Controls.Add(this.LBLContador);
             this.Controls.Add(this.BTNDesordenar);
             this.Controls.Add(this.LBL22);
@@ -201,7 +214,7 @@
             this.Controls.Add(this.LBL10);
             this.Controls.Add(this.LBL02);
             this.Controls.Add(this.LBL01);
-            this.Controls.Add(this.LBL00);
+            this.Controls.Add(this.LBL07);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "FRMOchoPuzzle";
@@ -213,7 +226,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Label LBL00;
+        private System.Windows.Forms.Label LBL07;
         private System.Windows.Forms.Label LBL01;
         private System.Windows.Forms.Label LBL02;
         private System.Windows.Forms.Label LBL12;
@@ -225,6 +238,7 @@
         private System.Windows.Forms.Button BTNDesordenar;
         private System.Windows.Forms.Timer TMRRelog;
         private System.Windows.Forms.Label LBLContador;
+        private System.Windows.Forms.Button Generar1;
     }
 }
 
