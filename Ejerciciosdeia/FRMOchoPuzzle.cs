@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ejerciciosdeia;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -215,7 +216,7 @@ namespace Tarea_2_ia
         private void button1_Click(object sender, EventArgs e)
         {
             CLEstado Inicial = new CLEstado(
-       Convert.ToInt32(LBL00.Text),
+       Convert.ToInt32(LBL07.Text),
        Convert.ToInt32(LBL01.Text),
        Convert.ToInt32(LBL02.Text),
        Convert.ToInt32(LBL10.Text),
@@ -226,7 +227,11 @@ namespace Tarea_2_ia
        Convert.ToInt32(LBL22.Text)
                                  );
 
+            
             List<CLEstado> Hijos = Inicial.GenerarHijos();
+            FRMHijos A = new FRMHijos();
+            A.Hijos = Hijos;
+            A.ShowDialog();
 
         }
 

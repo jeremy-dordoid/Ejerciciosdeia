@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Tarea_2_ia
 {
-    internal class CLEstado
+    public class CLEstado
     {
         #region Campos
         private int[,] _tablero;
