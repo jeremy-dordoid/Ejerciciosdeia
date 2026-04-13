@@ -176,41 +176,65 @@ namespace Tarea_2_ia
         }
 
         private void BTNDesordenar_Click(object sender, EventArgs e)
+
         {
-            
-            List<string> valores = new List<string> { "1", "2", "3", "4", "5", "6", "7", "8", "0" };
 
-           
-            Random rnd = new Random();
-            valores = valores.OrderBy(x => rnd.Next()).ToList();
+            contador = 0;
+            TMRRelog.Interval = 1; 
+            TMRRelog.Enabled = true;
 
-  
-            LBL07.Text = valores[0];
-            LBL01.Text = valores[1];
-            LBL02.Text = valores[2];
-            LBL10.Text = valores[3];
-            LBL11.Text = valores[4];
-            LBL12.Text = valores[5];
-            LBL20.Text = valores[6];
-            LBL21.Text = valores[7];
-            LBL22.Text = valores[8];
         }
 
         private void TMRRelog_Tick(object sender, EventArgs e)
         {
-            if (contador < 10)
+            if (contador < 50)
             {
                 contador++;
                 LBLContador.Text = contador.ToString();
 
+                // Cargar tablero en matriz
+                string[,] tablero = new string[3, 3];
+                Label[,] labels = new Label[3, 3]
+                {
+            { LBL07, LBL01, LBL02 },
+            { LBL10, LBL11, LBL12 },
+            { LBL20, LBL21, LBL22 }
+                };
+
+                // Encontrar el 0
+                int fi = 0, fj = 0;
+                for (int i = 0; i < 3; i++)
+                    for (int j = 0; j < 3; j++)
+                        if (labels[i, j].Text == "0")
+                        { fi = i; fj = j; }
+
+                // Direcciones posibles: arriba, abajo, izquierda, derecha
+                int[,] dirs = { { -1, 0 }, { 1, 0 }, { 0, -1 }, { 0, 1 } };
+
+                // Filtrar solo movimientos válidos dentro del tablero
+                List<int[]> movValidos = new List<int[]>();
+                for (int d = 0; d < 4; d++)
+                {
+                    int ni = fi + dirs[d, 0];
+                    int nj = fj + dirs[d, 1];
+                    if (ni >= 0 && ni < 3 && nj >= 0 && nj < 3)
+                        movValidos.Add(new int[] { ni, nj });
+                }
+
+                // Elegir movimiento aleatorio válido e intercambiar
+                Random rnd = new Random();
+                int[] mov = movValidos[rnd.Next(movValidos.Count)];
+                labels[fi, fj].Text = labels[mov[0], mov[1]].Text;
+                labels[mov[0], mov[1]].Text = "0";
             }
             else
             {
                 TMRRelog.Enabled = false;
-                MessageBox.Show("Reloj APAGADO");
+                MessageBox.Show("Reloj apagado");
                 LBLContador.Text = "";
                 contador = 0;
             }
+
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -238,6 +262,30 @@ namespace Tarea_2_ia
         private void LBLContador_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            CLEstado Estado = new CLEstado();
+            CLEstado Inicial = new CLEstado(Convert.ToInt32(LBL07.Text),
+                                            Convert.ToInt32(LBL01.Text),
+                                            Convert.ToInt32(LBL02.Text),
+                                            Convert.ToInt32(LBL10.Text),
+                                            Convert.ToInt32(LBL11.Text),
+                                            Convert.ToInt32(LBL12.Text),
+                                            Convert.ToInt32(LBL20.Text),
+                                            Convert.ToInt32(LBL21.Text),
+                                            Convert.ToInt32(LBL22.Text)
+                                            );
+
+            if (Inicial.EsFinal())
+            {
+                MessageBox.Show("Es estado final");
+            }
+            else
+            {
+                MessageBox.Show("No es el estado final");
+            }
         }
     }
 }
