@@ -251,8 +251,7 @@ namespace Tarea_2_ia
        Convert.ToInt32(LBL22.Text)
                                  );
 
-            
-            List<CLEstado> Hijos = Inicial.GenerarHijos();
+            List<CLEstado> Hijos = Inicial.GenerarHijos(new List<CLEstado>(), new List<CLEstado>());
             FRMHijos A = new FRMHijos();
             A.Hijos = Hijos;
             A.ShowDialog();
