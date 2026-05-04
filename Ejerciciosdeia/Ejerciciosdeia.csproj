@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CLAlgoritmosDeBusqueda.cs" />
     <Compile Include="CLEstado.cs" />
     <Compile Include="FRMHijos.cs">
       <SubType>Form</SubType>

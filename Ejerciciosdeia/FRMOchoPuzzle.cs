@@ -1,5 +1,4 @@
-﻿using Ejerciciosdeia;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -14,9 +13,16 @@ namespace Tarea_2_ia
     public partial class FRMOchoPuzzle : Form
     {
         private int contador = 0;
+        private List<CLEstado> _solucion = new List<CLEstado>();
+        private int _pasoSolucion = 0;
+        private Timer _timerSolucion;
+
         public FRMOchoPuzzle()
         {
             InitializeComponent();
+            _timerSolucion = new Timer();
+            _timerSolucion.Interval = 500;
+            _timerSolucion.Tick += new EventHandler(TimerSolucion_Tick);
         }
 
         private void LBL00_Click(object sender, EventArgs e)
@@ -187,7 +193,7 @@ namespace Tarea_2_ia
 
         private void TMRRelog_Tick(object sender, EventArgs e)
         {
-            if (contador < 50)
+            if (contador <= 50)
             {
                 contador++;
                 LBLContador.Text = contador.ToString();
@@ -251,7 +257,7 @@ namespace Tarea_2_ia
        Convert.ToInt32(LBL22.Text)
                                  );
 
-            List<CLEstado> Hijos = Inicial.GenerarHijos(new List<CLEstado>(), new List<CLEstado>());
+            List<CLEstado> Hijos = Inicial.GenerarHijos();
             FRMHijos A = new FRMHijos();
             A.Hijos = Hijos;
             A.ShowDialog();
@@ -285,6 +291,59 @@ namespace Tarea_2_ia
             {
                 MessageBox.Show("No es el estado final");
             }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            CLEstado Inicial = new CLEstado(
+                Convert.ToInt32(LBL07.Text),
+                Convert.ToInt32(LBL01.Text),
+                Convert.ToInt32(LBL02.Text),
+                Convert.ToInt32(LBL10.Text),
+                Convert.ToInt32(LBL11.Text),
+                Convert.ToInt32(LBL12.Text),
+                Convert.ToInt32(LBL20.Text),
+                Convert.ToInt32(LBL21.Text),
+                Convert.ToInt32(LBL22.Text));
+
+            List<CLEstado> Solucion = CLAlgoritmosDeBusqueda.AnchuraPrioritaria(Inicial);
+
+            MessageBox.Show("Pasos encontrados: " + Solucion.Count);
+
+            if (Solucion.Count == 0)
+            {
+                MessageBox.Show("No se encontro solucion.");
+                return;
+            }
+
+            // La solucion viene del final al inicio, hay que invertirla
+            Solucion.Reverse();
+            _solucion = Solucion;
+            _pasoSolucion = 0;
+            _timerSolucion.Start();
+        }
+
+        private void TimerSolucion_Tick(object sender, EventArgs e)
+        {
+            if (_pasoSolucion >= _solucion.Count)
+            {
+                _timerSolucion.Stop();
+                MessageBox.Show("Puzzle resuelto!");
+                return;
+            }
+
+            CLEstado paso = _solucion[_pasoSolucion];
+            LBL07.Text = paso.tablero[0, 0].ToString();
+            LBL01.Text = paso.tablero[0, 1].ToString();
+            LBL02.Text = paso.tablero[0, 2].ToString();
+            LBL10.Text = paso.tablero[1, 0].ToString();
+            LBL11.Text = paso.tablero[1, 1].ToString();
+            LBL12.Text = paso.tablero[1, 2].ToString();
+            LBL20.Text = paso.tablero[2, 0].ToString();
+            LBL21.Text = paso.tablero[2, 1].ToString();
+            LBL22.Text = paso.tablero[2, 2].ToString();
+
+            _pasoSolucion++;
         }
     }
 }
