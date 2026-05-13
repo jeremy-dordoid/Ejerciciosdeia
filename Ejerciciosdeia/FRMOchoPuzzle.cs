@@ -278,7 +278,7 @@ namespace Tarea_2_ia
                                             Convert.ToInt32(LBL10.Text),
                                             Convert.ToInt32(LBL11.Text),
                                             Convert.ToInt32(LBL12.Text),
-                                            Convert.ToInt32(LBL20.Text),
+                                            Convert.ToInt32(LBL20.Text), 
                                             Convert.ToInt32(LBL21.Text),
                                             Convert.ToInt32(LBL22.Text)
                                             );
@@ -316,7 +316,6 @@ namespace Tarea_2_ia
                 return;
             }
 
-            // La solucion viene del final al inicio, hay que invertirla
             Solucion.Reverse();
             _solucion = Solucion;
             _pasoSolucion = 0;
@@ -344,6 +343,40 @@ namespace Tarea_2_ia
             LBL22.Text = paso.tablero[2, 2].ToString();
 
             _pasoSolucion++;
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            CLEstado Inicial = new CLEstado(
+                Convert.ToInt32(LBL07.Text),
+                Convert.ToInt32(LBL01.Text),
+                Convert.ToInt32(LBL02.Text),
+                Convert.ToInt32(LBL10.Text),
+                Convert.ToInt32(LBL11.Text),
+                Convert.ToInt32(LBL12.Text),
+                Convert.ToInt32(LBL20.Text),
+                Convert.ToInt32(LBL21.Text),
+                Convert.ToInt32(LBL22.Text));
+
+            int limite = (int)numericUpDown1.Value;
+
+            List<CLEstado> Solucion = CLAlgoritmosDeBusqueda.ProfundidadLimitada(Inicial, limite);
+
+            if (Solucion.Count == 0)
+            {
+                MessageBox.Show("No se encontró solución con límite: " + limite);
+                return;
+            }
+
+            MessageBox.Show("Pasos encontrados: " + (Solucion.Count));
+
+            _solucion = Solucion;
+            _pasoSolucion = 0;
+            _timerSolucion.Start();
+        }
+
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        {
         }
     }
 }
