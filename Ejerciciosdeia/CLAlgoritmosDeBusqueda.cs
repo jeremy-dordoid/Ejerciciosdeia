@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Tarea_2_ia
 {
@@ -136,8 +137,15 @@ namespace Tarea_2_ia
                     return Solucion;
                 }
 
+                if (!Actual.EsFinal())
+                {
+                    MessageBox.Show("No se encontró solución en profundidad: " + prof);
+                }
+                
+
                 prof++;
             }
+
             return new List<CLEstado>();
         }
 
