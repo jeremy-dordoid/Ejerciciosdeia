@@ -316,6 +316,8 @@ namespace Tarea_2_ia
                 return;
             }
 
+
+
             Solucion.Reverse();
             _solucion = Solucion;
             _pasoSolucion = 0;
@@ -368,7 +370,7 @@ namespace Tarea_2_ia
                 return;
             }
 
-            MessageBox.Show("Pasos encontrados: " + (Solucion.Count));
+            MessageBox.Show("Resolviendo ");
 
             _solucion = Solucion;
             _pasoSolucion = 0;
@@ -377,6 +379,36 @@ namespace Tarea_2_ia
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            CLEstado Inicial = new CLEstado(
+                Convert.ToInt32(LBL07.Text),
+                Convert.ToInt32(LBL01.Text),
+                Convert.ToInt32(LBL02.Text),
+                Convert.ToInt32(LBL10.Text),
+                Convert.ToInt32(LBL11.Text),
+                Convert.ToInt32(LBL12.Text),
+                Convert.ToInt32(LBL20.Text),
+                Convert.ToInt32(LBL21.Text),
+                Convert.ToInt32(LBL22.Text));
+
+            int limite = (int)numericUpDown2.Value;
+
+            List<CLEstado> Solucion = CLAlgoritmosDeBusqueda.ProfundidadIterativa(Inicial, limite);
+
+            if (Solucion.Count == 0)
+            {
+                MessageBox.Show("No se encontró solución con límite: " + limite);
+                return;
+            }
+
+            MessageBox.Show("Pasos encontrados: " + (Solucion.Count - 2));
+
+            _solucion = Solucion;
+            _pasoSolucion = 0;
+            _timerSolucion.Start();
         }
     }
 }

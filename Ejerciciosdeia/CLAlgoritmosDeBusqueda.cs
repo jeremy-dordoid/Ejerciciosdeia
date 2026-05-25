@@ -97,6 +97,50 @@ namespace Tarea_2_ia
             return Solucion;
         }
 
+        public static List<CLEstado> ProfundidadIterativa(CLEstado Inicial, int Limite)
+        {
+            int prof = 1;
+            while (prof < Limite)
+            {
+                List<CLEstado> Abiertos = new List<CLEstado>();
+                List<CLEstado> Cerrados = new List<CLEstado>();
+                List<CLEstado> Hijos = new List<CLEstado>();
+                CLEstado Actual = new CLEstado();
+
+                Abiertos.Add(Inicial);
+                Actual = Abiertos[Abiertos.Count - 1];
+
+                while (!Actual.EsFinal() && Abiertos.Count > 0)
+                {
+                    Abiertos.RemoveAt(Abiertos.Count - 1);
+                    Cerrados.Add(Actual);
+                    if (Actual.nivel <= prof)
+                    {
+                        Hijos = Actual.GenerarHijos();
+                        Hijos = TratarRepetidosProfundidad(Hijos, Abiertos, Cerrados);
+                        foreach (CLEstado a in Hijos)
+                            Abiertos.Add(a);
+                    }
+                    if (Abiertos.Count == 0) break;
+                    Actual = Abiertos[Abiertos.Count - 1];
+                }
+
+                if (Actual.EsFinal())
+                {
+                    List<CLEstado> Solucion = new List<CLEstado>();
+                    while (Actual != null)
+                    {
+                        Solucion.Insert(0, Actual);
+                        Actual = Actual.padre;
+                    }
+                    return Solucion;
+                }
+
+                prof++;
+            }
+            return new List<CLEstado>();
+        }
+
         private static List<CLEstado> TratarRepetidosProfundidad(List<CLEstado> hijos, List<CLEstado> abiertos, List<CLEstado> cerrados)
         {
             List<CLEstado> HijosDepurados = new List<CLEstado>();
