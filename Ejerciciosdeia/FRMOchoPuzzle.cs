@@ -410,5 +410,34 @@ namespace Tarea_2_ia
             _pasoSolucion = 0;
             _timerSolucion.Start();
         }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            CLEstado Inicial = new CLEstado(
+                Convert.ToInt32(LBL07.Text),
+                Convert.ToInt32(LBL01.Text),
+                Convert.ToInt32(LBL02.Text),
+                Convert.ToInt32(LBL10.Text),
+                Convert.ToInt32(LBL11.Text),
+                Convert.ToInt32(LBL12.Text),
+                Convert.ToInt32(LBL20.Text),
+                Convert.ToInt32(LBL21.Text),
+                Convert.ToInt32(LBL22.Text));
+
+            List<CLEstado> Solucion = CLAlgoritmosDeBusqueda.AEstrella(Inicial);
+
+            if (Solucion.Count == 0)
+            {
+                MessageBox.Show("No se encontró solución.");
+                return;
+            }
+
+            MessageBox.Show("Pasos encontrados: " + Solucion.Count);
+
+            Solucion.Reverse();
+            _solucion = Solucion;
+            _pasoSolucion = 0;
+            _timerSolucion.Start();
+        }
     }
 }

@@ -382,6 +382,35 @@ namespace Tarea_2_ia
             }
             return Respuesta;
         }
+        public int H2()
+        {
+            Dictionary<int, int[]> destinos = new Dictionary<int, int[]>
+            {
+                { 1, new int[]{ 0, 0 } },
+                { 2, new int[]{ 0, 1 } },
+                { 3, new int[]{ 0, 2 } },
+                { 4, new int[]{ 1, 0 } },
+                { 5, new int[]{ 1, 1 } },
+                { 6, new int[]{ 1, 2 } },
+                { 7, new int[]{ 2, 0 } },
+                { 8, new int[]{ 2, 1 } }
+            };
+            int distancia = 0;
+            for (int fila = 0; fila < 3; fila++)
+            {
+                for (int col = 0; col < 3; col++)
+                {
+                    int pieza = _tablero[fila, col];
+                    if (pieza != 0)
+                    {
+                        int[] pos = destinos[pieza];
+                        distancia += Math.Abs(fila - pos[0]) + Math.Abs(col - pos[1]);
+                    }
+                }
+            }
+            return distancia;
+        }
+
         public bool EsFinal()
         {
             bool res = false;
