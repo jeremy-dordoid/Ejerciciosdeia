@@ -190,7 +190,7 @@ namespace Tarea_2_ia
 
             return Solucion;
         }
-
+        //YA no lo uso los h1h2h3 estan en cl estado lsdfjklsfjlsdjflsdjfl por si acaso
         private static List<CLEstado> TratarRepetidosAEstrella(List<CLEstado> hijos, List<CLEstado> abiertos, List<CLEstado> cerrados)
         {
             List<CLEstado> HijosDepurado = new List<CLEstado>();
