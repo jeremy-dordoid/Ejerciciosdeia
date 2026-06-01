@@ -411,9 +411,9 @@ namespace Tarea_2_ia
             _timerSolucion.Start();
         }
 
-        private void button5_Click(object sender, EventArgs e)
+        private CLEstado ObtenerEstadoActual()
         {
-            CLEstado Inicial = new CLEstado(
+            return new CLEstado(
                 Convert.ToInt32(LBL07.Text),
                 Convert.ToInt32(LBL01.Text),
                 Convert.ToInt32(LBL02.Text),
@@ -423,21 +423,25 @@ namespace Tarea_2_ia
                 Convert.ToInt32(LBL20.Text),
                 Convert.ToInt32(LBL21.Text),
                 Convert.ToInt32(LBL22.Text));
-
-            List<CLEstado> Solucion = CLAlgoritmosDeBusqueda.AEstrella(Inicial);
-
-            if (Solucion.Count == 0)
-            {
-                MessageBox.Show("No se encontró solución.");
-                return;
-            }
-
-            MessageBox.Show("Pasos encontrados: " + Solucion.Count);
-
-            Solucion.Reverse();
-            _solucion = Solucion;
-            _pasoSolucion = 0;
-            _timerSolucion.Start();
         }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            CLEstado estado = ObtenerEstadoActual();
+            MessageBox.Show("H1 (fichas mal colocadas) = " + estado.H1());
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            CLEstado estado = ObtenerEstadoActual();
+            MessageBox.Show("H2 (distancia Manhattan) = " + estado.H2());
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            CLEstado estado = ObtenerEstadoActual();
+            MessageBox.Show("H3 (Manhattan + penalización) = " + estado.H3());
+        }
+
     }
 }

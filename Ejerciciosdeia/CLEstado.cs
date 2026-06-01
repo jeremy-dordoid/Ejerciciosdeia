@@ -382,6 +382,24 @@ namespace Tarea_2_ia
             }
             return Respuesta;
         }
+        public int H1()
+        {
+            int[] meta = { 1, 2, 3, 8, 0, 4, 7, 6, 5 };
+            int piezasMal = 0;
+            int indice = 0;
+            for (int fila = 0; fila < 3; fila++)
+            {
+                for (int col = 0; col < 3; col++)
+                {
+                    int pieza = _tablero[fila, col];
+                    if (pieza != 0 && pieza != meta[indice])
+                        piezasMal++;
+                    indice++;
+                }
+            }
+            return piezasMal;
+        }
+
         public int H2()
         {
             Dictionary<int, int[]> destinos = new Dictionary<int, int[]>
@@ -389,11 +407,11 @@ namespace Tarea_2_ia
                 { 1, new int[]{ 0, 0 } },
                 { 2, new int[]{ 0, 1 } },
                 { 3, new int[]{ 0, 2 } },
-                { 4, new int[]{ 1, 0 } },
-                { 5, new int[]{ 1, 1 } },
-                { 6, new int[]{ 1, 2 } },
+                { 8, new int[]{ 1, 0 } },
+                { 4, new int[]{ 1, 2 } },
                 { 7, new int[]{ 2, 0 } },
-                { 8, new int[]{ 2, 1 } }
+                { 6, new int[]{ 2, 1 } },
+                { 5, new int[]{ 2, 2 } }
             };
             int distancia = 0;
             for (int fila = 0; fila < 3; fila++)
@@ -411,18 +429,44 @@ namespace Tarea_2_ia
             return distancia;
         }
 
+        public int H3()
+        {
+            int[,] borde = {
+                { 0,0 }, { 0,1 }, { 0,2 },
+                { 1,2 }, { 2,2 }, { 2,1 },
+                { 2,0 }, { 1,0 }
+            };
+            int penalizacion = 0;
+            for (int i = 0; i < 8; i++)
+            {
+                int fA = borde[i, 0], cA = borde[i, 1];
+                int fB = borde[(i + 1) % 8, 0], cB = borde[(i + 1) % 8, 1];
+                int piezaActual = _tablero[fA, cA];
+                int piezaSiguiente = _tablero[fB, cB];
+                if (piezaActual != 0)
+                {
+                    int sucesorEsperado = (piezaActual == 8) ? 1 : piezaActual + 1;
+                    if (piezaSiguiente != sucesorEsperado)
+                        penalizacion += 2;
+                }
+            }
+            if (_tablero[1, 1] != 0)
+                penalizacion++;
+            return H2() + (3 * penalizacion);
+        }
+
         public bool EsFinal()
         {
             bool res = false;
             if (_tablero[0, 0] == 1 &&
                 _tablero[0, 1] == 2 &&
                 _tablero[0, 2] == 3 &&
-                _tablero[1, 0] == 4 &&
-                _tablero[1, 1] == 5 &&
-                _tablero[1, 2] == 6 &&
+                _tablero[1, 0] == 8 &&
+                _tablero[1, 1] == 0 &&
+                _tablero[1, 2] == 4 &&
                 _tablero[2, 0] == 7 &&
-                _tablero[2, 1] == 8 &&
-                _tablero[2, 2] == 0)
+                _tablero[2, 1] == 6 &&
+                _tablero[2, 2] == 5)
             {
                 res = true;
             }
