@@ -172,7 +172,7 @@ namespace Tarea_2_ia
                     Abiertos.Add(hijo);
 
                 // Ordenar por f(n) = g(n) + h(n) = nivel + H2
-                Abiertos = Abiertos.OrderBy(e => e.nivel + e.H2()).ToList();
+                Abiertos = Abiertos.OrderBy(e => e.nivel + e.h3).ToList();
 
                 if (Abiertos.Count == 0) break;
                 Actual = Abiertos[0];

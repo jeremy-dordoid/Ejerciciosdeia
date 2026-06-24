@@ -440,7 +440,27 @@ namespace Tarea_2_ia
         private void button7_Click(object sender, EventArgs e)
         {
             CLEstado estado = ObtenerEstadoActual();
-            MessageBox.Show("H3 (Manhattan + penalización) = " + estado.H3());
+            MessageBox.Show("H3 (Manhattan + penalización) = " + estado.h3);
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            CLEstado Inicial = ObtenerEstadoActual();
+
+            List<CLEstado> Solucion = CLAlgoritmosDeBusqueda.AEstrella(Inicial);
+
+            if (Solucion.Count == 0)
+            {
+                MessageBox.Show("No se encontró solución.");
+                return;
+            }
+
+            MessageBox.Show("A* con H3 - Pasos encontrados: " + Solucion.Count);
+
+            Solucion.Reverse();
+            _solucion = Solucion;
+            _pasoSolucion = 0;
+            _timerSolucion.Start();
         }
 
     }

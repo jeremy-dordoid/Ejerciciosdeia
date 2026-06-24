@@ -12,6 +12,7 @@ namespace Tarea_2_ia
         private int[,] _tablero;
         private int _nivel;
         private CLEstado _padre;
+        private int _h3;
         #endregion
         #region Propiedades
         public int[,] tablero
@@ -23,6 +24,11 @@ namespace Tarea_2_ia
         {
             get => _nivel;
             set => _nivel = value;
+        }
+        public int h3
+        {
+            get => _h3;
+            set => _h3 = value;
         }
         public CLEstado padre
         {
@@ -56,6 +62,7 @@ namespace Tarea_2_ia
             this._tablero[2, 2] = p22;
             this._nivel = 0;
             this._padre = null;
+            this._h3 = H3();
         }
         #endregion
         #region Métodos
@@ -384,75 +391,75 @@ namespace Tarea_2_ia
         }
         public int H1()
         {
-            int[] meta = { 1, 2, 3, 8, 0, 4, 7, 6, 5 };
-            int piezasMal = 0;
-            int indice = 0;
+            int piezasFueraDeLugar = 0;
+            int[,] estadoMeta =
+            {
+                { 1, 2, 3 },
+                { 4, 5, 6 },
+                { 7, 8, 0 }
+            };
             for (int fila = 0; fila < 3; fila++)
             {
-                for (int col = 0; col < 3; col++)
+                for (int columna = 0; columna < 3; columna++)
                 {
-                    int pieza = _tablero[fila, col];
-                    if (pieza != 0 && pieza != meta[indice])
-                        piezasMal++;
-                    indice++;
+                    if (_tablero[fila, columna] != 0 &&
+                        _tablero[fila, columna] != estadoMeta[fila, columna])
+                    {
+                        piezasFueraDeLugar++;
+                    }
                 }
             }
-            return piezasMal;
+            return piezasFueraDeLugar;
         }
 
         public int H2()
         {
-            Dictionary<int, int[]> destinos = new Dictionary<int, int[]>
+            int distanciaTotal = 0;
+            int[,] estadoMeta =
             {
-                { 1, new int[]{ 0, 0 } },
-                { 2, new int[]{ 0, 1 } },
-                { 3, new int[]{ 0, 2 } },
-                { 8, new int[]{ 1, 0 } },
-                { 4, new int[]{ 1, 2 } },
-                { 7, new int[]{ 2, 0 } },
-                { 6, new int[]{ 2, 1 } },
-                { 5, new int[]{ 2, 2 } }
+                { 1, 2, 3 },
+                { 4, 5, 6 },
+                { 7, 8, 0 }
             };
-            int distancia = 0;
             for (int fila = 0; fila < 3; fila++)
             {
-                for (int col = 0; col < 3; col++)
+                for (int columna = 0; columna < 3; columna++)
                 {
-                    int pieza = _tablero[fila, col];
-                    if (pieza != 0)
-                    {
-                        int[] pos = destinos[pieza];
-                        distancia += Math.Abs(fila - pos[0]) + Math.Abs(col - pos[1]);
-                    }
+                    int valor = _tablero[fila, columna];
+                    if (valor == 0) continue;
+                    int filaMeta = 0, columnaMeta = 0;
+                    for (int i = 0; i < 3; i++)
+                        for (int j = 0; j < 3; j++)
+                            if (estadoMeta[i, j] == valor)
+                            { filaMeta = i; columnaMeta = j; }
+                    distanciaTotal += Math.Abs(fila - filaMeta) + Math.Abs(columna - columnaMeta);
                 }
             }
-            return distancia;
+            return distanciaTotal;
         }
 
-        public int H3()
+        private int H3()
         {
-            int[,] borde = {
-                { 0,0 }, { 0,1 }, { 0,2 },
-                { 1,2 }, { 2,2 }, { 2,1 },
-                { 2,0 }, { 1,0 }
+            if (EsFinal()) return 0;
+            int[] borde =
+            {
+                _tablero[0, 0], _tablero[0, 1], _tablero[0, 2],
+                _tablero[1, 2], _tablero[2, 2], _tablero[2, 1],
+                _tablero[2, 0], _tablero[1, 0]
             };
-            int penalizacion = 0;
+            int sumaS = 0;
             for (int i = 0; i < 8; i++)
             {
-                int fA = borde[i, 0], cA = borde[i, 1];
-                int fB = borde[(i + 1) % 8, 0], cB = borde[(i + 1) % 8, 1];
-                int piezaActual = _tablero[fA, cA];
-                int piezaSiguiente = _tablero[fB, cB];
-                if (piezaActual != 0)
-                {
-                    int sucesorEsperado = (piezaActual == 8) ? 1 : piezaActual + 1;
-                    if (piezaSiguiente != sucesorEsperado)
-                        penalizacion += 2;
-                }
+                int actual = borde[i];
+                if (actual == 0) continue;
+                int siguiente = borde[(i + 1) % 8];
+                int sucesorCorrecto = (actual == 8) ? 1 : actual + 1;
+                if (siguiente != sucesorCorrecto)
+                    sumaS += 2;
             }
             if (_tablero[1, 1] != 0)
-                penalizacion++;
-            return H2() + (3 * penalizacion);
+                sumaS += 1;
+            return H2() + (3 * sumaS);
         }
 
         public bool EsFinal()
@@ -461,12 +468,12 @@ namespace Tarea_2_ia
             if (_tablero[0, 0] == 1 &&
                 _tablero[0, 1] == 2 &&
                 _tablero[0, 2] == 3 &&
-                _tablero[1, 0] == 8 &&
-                _tablero[1, 1] == 0 &&
-                _tablero[1, 2] == 4 &&
+                _tablero[1, 0] == 4 &&
+                _tablero[1, 1] == 5 &&
+                _tablero[1, 2] == 6 &&
                 _tablero[2, 0] == 7 &&
-                _tablero[2, 1] == 6 &&
-                _tablero[2, 2] == 5)
+                _tablero[2, 1] == 8 &&
+                _tablero[2, 2] == 0)
             {
                 res = true;
             }
