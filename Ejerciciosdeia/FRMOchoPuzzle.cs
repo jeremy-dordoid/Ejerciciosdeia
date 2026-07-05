@@ -16,6 +16,7 @@ namespace Tarea_2_ia
         private List<CLEstado> _solucion = new List<CLEstado>();
         private int _pasoSolucion = 0;
         private Timer _timerSolucion;
+        private Random _rnd = new Random();
 
         public FRMOchoPuzzle()
         {
@@ -23,162 +24,60 @@ namespace Tarea_2_ia
             _timerSolucion = new Timer();
             _timerSolucion.Interval = 500;
             _timerSolucion.Tick += new EventHandler(TimerSolucion_Tick);
+            foreach (Label celda in ObtenerTablero())
+                celda.Click += Celda_Click;
         }
 
-        private void LBL00_Click(object sender, EventArgs e)
+        // Matriz 4x4 con los labels en su posicion real dentro de la cuadricula.
+        // La ultima fila esta nombrada al reves (label7 es la esquina izquierda).
+        private Label[,] ObtenerTablero()
         {
-            if (LBL10.Text == "0")
+            return new Label[4, 4]
             {
-                LBL10.Text = LBL07.Text;
-                LBL07.Text = "0";
-            }
-            else if (LBL01.Text == "0")
-            {
-                LBL01.Text = LBL07.Text;
-                LBL07.Text = "0";
-            }
+                { LBL07,  LBL01,  LBL02,  label1 },
+                { LBL10,  LBL11,  LBL12,  label2 },
+                { LBL20,  LBL21,  LBL22,  label3 },
+                { label7, label6, label5, label4 }
+            };
         }
 
-        private void LBL10_Click(object sender, EventArgs e)
+        private void Celda_Click(object sender, EventArgs e)
         {
-            if (LBL07.Text == "0")
-            {
-                LBL07.Text = LBL10.Text;
-                LBL10.Text = "0";
-            }
-            else if (LBL11.Text == "0")
-            {
-                LBL11.Text = LBL10.Text;
-                LBL10.Text = "0";
-            }
-            else if (LBL20.Text == "0")
-            {
-                LBL20.Text = LBL10.Text;
-                LBL10.Text = "0";
-            }
-        }
+            Label celda = (Label)sender;
+            Label[,] labels = ObtenerTablero();
 
-        private void LBL20_Click(object sender, EventArgs e)
-        {
-            if (LBL10.Text == "0")
+            // Buscar la posicion de la celda clickeada
+            int fi = 0, fj = 0;
+            for (int i = 0; i < 4; i++)
+                for (int j = 0; j < 4; j++)
+                    if (labels[i, j] == celda)
+                    { fi = i; fj = j; }
+
+            // Si algun vecino es el 0, intercambiar
+            int[,] dirs = { { -1, 0 }, { 1, 0 }, { 0, -1 }, { 0, 1 } };
+            for (int d = 0; d < 4; d++)
             {
-                LBL10.Text = LBL20.Text;
-                LBL20.Text = "0";
-            }
-            else if (LBL21.Text == "0")
-            {
-                LBL21.Text = LBL20.Text;
-                LBL20.Text = "0";
+                int ni = fi + dirs[d, 0];
+                int nj = fj + dirs[d, 1];
+                if (ni >= 0 && ni < 4 && nj >= 0 && nj < 4 && labels[ni, nj].Text == "0")
+                {
+                    labels[ni, nj].Text = celda.Text;
+                    celda.Text = "0";
+                    break;
+                }
             }
         }
 
-        private void LBL01_Click(object sender, EventArgs e)
+        private void BTNOrdenar_Click(object sender, EventArgs e)
         {
-            if (LBL07.Text == "0")
-            {
-                LBL07.Text = LBL01.Text;
-                LBL01.Text = "0";
-            }
-            else if (LBL11.Text == "0")
-            {
-                LBL11.Text = LBL01.Text;
-                LBL01.Text = "0";
-            }
-            else if (LBL02.Text == "0")
-            {
-                LBL02.Text = LBL01.Text;
-                LBL01.Text = "0";
-            }
-        }
-
-        private void LBL02_Click(object sender, EventArgs e)
-        {
-            if (LBL01.Text == "0")
-            {
-                LBL01.Text = LBL02.Text;
-                LBL02.Text = "0";
-            }
-            else if (LBL12.Text == "0")
-            {
-                LBL12.Text = LBL02.Text;
-                LBL02.Text = "0";
-            }
-        }
-
-        private void LBL11_Click(object sender, EventArgs e)
-        {
-            if (LBL01.Text == "0")
-            {
-                LBL01.Text = LBL11.Text;
-                LBL11.Text = "0";
-            }
-            else if (LBL10.Text == "0")
-            {
-                LBL10.Text = LBL11.Text;
-                LBL11.Text = "0";
-            }
-            else if (LBL21.Text == "0")
-            {
-                LBL21.Text = LBL11.Text;
-                LBL11.Text = "0";
-            }
-            else if (LBL12.Text == "0")
-            {
-                LBL12.Text = LBL11.Text;
-                LBL11.Text = "0";
-            }
-        }
-
-        private void LBL12_Click(object sender, EventArgs e)
-        {
-            if (LBL11.Text == "0")
-            {
-                LBL11.Text = LBL12.Text;
-                LBL12.Text = "0";
-            }
-            else if (LBL22.Text == "0")
-            {
-                LBL22.Text = LBL12.Text;
-                LBL12.Text = "0";
-            }
-            else if (LBL02.Text == "0")
-            {
-                LBL02.Text = LBL12.Text;
-                LBL12.Text = "0";
-            }
-        }
-
-        private void LBL21_Click(object sender, EventArgs e)
-        {
-            if (LBL11.Text == "0")
-            {
-                LBL11.Text = LBL21.Text;
-                LBL21.Text = "0";
-            }
-            else if (LBL20.Text == "0")
-            {
-                LBL20.Text = LBL21.Text;
-                LBL21.Text = "0";
-            }
-            else if (LBL22.Text == "0")
-            {
-                LBL22.Text = LBL21.Text;
-                LBL21.Text = "0";
-            }
-        }
-
-        private void LBL22_Click(object sender, EventArgs e)
-        {
-            if (LBL21.Text == "0")
-            {
-                LBL21.Text = LBL22.Text;
-                LBL22.Text = "0";
-            }
-            else if (LBL12.Text == "0")
-            {
-                LBL12.Text = LBL22.Text;
-                LBL22.Text = "0";
-            }
+            Label[,] labels = ObtenerTablero();
+            int valor = 1;
+            for (int i = 0; i < 4; i++)
+                for (int j = 0; j < 4; j++)
+                {
+                    labels[i, j].Text = (valor == 16) ? "0" : valor.ToString();
+                    valor++;
+                }
         }
 
         private void BTNDesordenar_Click(object sender, EventArgs e)
@@ -199,18 +98,12 @@ namespace Tarea_2_ia
                 LBLContador.Text = contador.ToString();
 
                 // Cargar tablero en matriz
-                string[,] tablero = new string[3, 3];
-                Label[,] labels = new Label[3, 3]
-                {
-            { LBL07, LBL01, LBL02 },
-            { LBL10, LBL11, LBL12 },
-            { LBL20, LBL21, LBL22 }
-                };
+                Label[,] labels = ObtenerTablero();
 
                 // Encontrar el 0
                 int fi = 0, fj = 0;
-                for (int i = 0; i < 3; i++)
-                    for (int j = 0; j < 3; j++)
+                for (int i = 0; i < 4; i++)
+                    for (int j = 0; j < 4; j++)
                         if (labels[i, j].Text == "0")
                         { fi = i; fj = j; }
 
@@ -223,13 +116,12 @@ namespace Tarea_2_ia
                 {
                     int ni = fi + dirs[d, 0];
                     int nj = fj + dirs[d, 1];
-                    if (ni >= 0 && ni < 3 && nj >= 0 && nj < 3)
+                    if (ni >= 0 && ni < 4 && nj >= 0 && nj < 4)
                         movValidos.Add(new int[] { ni, nj });
                 }
 
                 // Elegir movimiento aleatorio válido e intercambiar
-                Random rnd = new Random();
-                int[] mov = movValidos[rnd.Next(movValidos.Count)];
+                int[] mov = movValidos[_rnd.Next(movValidos.Count)];
                 labels[fi, fj].Text = labels[mov[0], mov[1]].Text;
                 labels[mov[0], mov[1]].Text = "0";
             }
@@ -245,17 +137,7 @@ namespace Tarea_2_ia
 
         private void button1_Click(object sender, EventArgs e)
         {
-            CLEstado Inicial = new CLEstado(
-       Convert.ToInt32(LBL07.Text),
-       Convert.ToInt32(LBL01.Text),
-       Convert.ToInt32(LBL02.Text),
-       Convert.ToInt32(LBL10.Text),
-       Convert.ToInt32(LBL11.Text),
-       Convert.ToInt32(LBL12.Text),
-       Convert.ToInt32(LBL20.Text),
-       Convert.ToInt32(LBL21.Text),
-       Convert.ToInt32(LBL22.Text)
-                                 );
+            CLEstado Inicial = ObtenerEstadoActual();
 
             List<CLEstado> Hijos = Inicial.GenerarHijos();
             FRMHijos A = new FRMHijos();
@@ -271,17 +153,7 @@ namespace Tarea_2_ia
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            CLEstado Estado = new CLEstado();
-            CLEstado Inicial = new CLEstado(Convert.ToInt32(LBL07.Text),
-                                            Convert.ToInt32(LBL01.Text),
-                                            Convert.ToInt32(LBL02.Text),
-                                            Convert.ToInt32(LBL10.Text),
-                                            Convert.ToInt32(LBL11.Text),
-                                            Convert.ToInt32(LBL12.Text),
-                                            Convert.ToInt32(LBL20.Text), 
-                                            Convert.ToInt32(LBL21.Text),
-                                            Convert.ToInt32(LBL22.Text)
-                                            );
+            CLEstado Inicial = ObtenerEstadoActual();
 
             if (Inicial.EsFinal())
             {
@@ -295,16 +167,7 @@ namespace Tarea_2_ia
 
         private void button2_Click(object sender, EventArgs e)
         {
-            CLEstado Inicial = new CLEstado(
-                Convert.ToInt32(LBL07.Text),
-                Convert.ToInt32(LBL01.Text),
-                Convert.ToInt32(LBL02.Text),
-                Convert.ToInt32(LBL10.Text),
-                Convert.ToInt32(LBL11.Text),
-                Convert.ToInt32(LBL12.Text),
-                Convert.ToInt32(LBL20.Text),
-                Convert.ToInt32(LBL21.Text),
-                Convert.ToInt32(LBL22.Text));
+            CLEstado Inicial = ObtenerEstadoActual();
 
             List<CLEstado> Solucion = CLAlgoritmosDeBusqueda.AnchuraPrioritaria(Inicial);
 
@@ -334,31 +197,17 @@ namespace Tarea_2_ia
             }
 
             CLEstado paso = _solucion[_pasoSolucion];
-            LBL07.Text = paso.tablero[0, 0].ToString();
-            LBL01.Text = paso.tablero[0, 1].ToString();
-            LBL02.Text = paso.tablero[0, 2].ToString();
-            LBL10.Text = paso.tablero[1, 0].ToString();
-            LBL11.Text = paso.tablero[1, 1].ToString();
-            LBL12.Text = paso.tablero[1, 2].ToString();
-            LBL20.Text = paso.tablero[2, 0].ToString();
-            LBL21.Text = paso.tablero[2, 1].ToString();
-            LBL22.Text = paso.tablero[2, 2].ToString();
+            Label[,] labels = ObtenerTablero();
+            for (int i = 0; i < 4; i++)
+                for (int j = 0; j < 4; j++)
+                    labels[i, j].Text = paso.tablero[i, j].ToString();
 
             _pasoSolucion++;
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            CLEstado Inicial = new CLEstado(
-                Convert.ToInt32(LBL07.Text),
-                Convert.ToInt32(LBL01.Text),
-                Convert.ToInt32(LBL02.Text),
-                Convert.ToInt32(LBL10.Text),
-                Convert.ToInt32(LBL11.Text),
-                Convert.ToInt32(LBL12.Text),
-                Convert.ToInt32(LBL20.Text),
-                Convert.ToInt32(LBL21.Text),
-                Convert.ToInt32(LBL22.Text));
+            CLEstado Inicial = ObtenerEstadoActual();
 
             int limite = (int)numericUpDown1.Value;
 
@@ -383,16 +232,7 @@ namespace Tarea_2_ia
 
         private void button4_Click(object sender, EventArgs e)
         {
-            CLEstado Inicial = new CLEstado(
-                Convert.ToInt32(LBL07.Text),
-                Convert.ToInt32(LBL01.Text),
-                Convert.ToInt32(LBL02.Text),
-                Convert.ToInt32(LBL10.Text),
-                Convert.ToInt32(LBL11.Text),
-                Convert.ToInt32(LBL12.Text),
-                Convert.ToInt32(LBL20.Text),
-                Convert.ToInt32(LBL21.Text),
-                Convert.ToInt32(LBL22.Text));
+            CLEstado Inicial = ObtenerEstadoActual();
 
             int limite = (int)numericUpDown2.Value;
 
@@ -411,18 +251,15 @@ namespace Tarea_2_ia
             _timerSolucion.Start();
         }
 
+        // Lee las 16 celdas de la pantalla y arma el estado 4x4
         private CLEstado ObtenerEstadoActual()
         {
-            return new CLEstado(
-                Convert.ToInt32(LBL07.Text),
-                Convert.ToInt32(LBL01.Text),
-                Convert.ToInt32(LBL02.Text),
-                Convert.ToInt32(LBL10.Text),
-                Convert.ToInt32(LBL11.Text),
-                Convert.ToInt32(LBL12.Text),
-                Convert.ToInt32(LBL20.Text),
-                Convert.ToInt32(LBL21.Text),
-                Convert.ToInt32(LBL22.Text));
+            Label[,] labels = ObtenerTablero();
+            int[,] valores = new int[4, 4];
+            for (int i = 0; i < 4; i++)
+                for (int j = 0; j < 4; j++)
+                    valores[i, j] = Convert.ToInt32(labels[i, j].Text);
+            return new CLEstado(valores);
         }
 
         private void button5_Click(object sender, EventArgs e)
@@ -463,5 +300,14 @@ namespace Tarea_2_ia
             _timerSolucion.Start();
         }
 
+        private void LBL21_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

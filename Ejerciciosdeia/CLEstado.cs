@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -39,352 +39,138 @@ namespace Tarea_2_ia
         #region Constructor
         public CLEstado()
         {
-            this._tablero = new int[3, 3];
-            for (int i = 0; i < 3; i++)
-                for (int j = 0; j < 3; j++)
+            this._tablero = new int[4, 4];
+            for (int i = 0; i < 4; i++)
+                for (int j = 0; j < 4; j++)
                     this._tablero[i, j] = 0;
             this._nivel = 0;
             this._padre = null;
         }
-        public CLEstado(int p00, int p01, int p02,
-                        int p10, int p11, int p12,
-                        int p20, int p21, int p22)
+        public CLEstado(int[,] valores)
         {
-            this._tablero = new int[3, 3];
-            this._tablero[0, 0] = p00;
-            this._tablero[1, 0] = p10;
-            this._tablero[2, 0] = p20;
-            this._tablero[0, 1] = p01;
-            this._tablero[1, 1] = p11;
-            this._tablero[2, 1] = p21;
-            this._tablero[0, 2] = p02;
-            this._tablero[1, 2] = p12;
-            this._tablero[2, 2] = p22;
+            this._tablero = new int[4, 4];
+            for (int i = 0; i < 4; i++)
+                for (int j = 0; j < 4; j++)
+                    this._tablero[i, j] = valores[i, j];
             this._nivel = 0;
             this._padre = null;
             this._h3 = H3();
         }
         #endregion
         #region Métodos
+        // Crea un hijo copiando el tablero y moviendo la ficha (filaFicha, colFicha)
+        // al hueco (fila0, col0). El 0 queda donde estaba la ficha.
+        private CLEstado CrearHijo(int fila0, int col0, int filaFicha, int colFicha)
+        {
+            int[,] nuevo = new int[4, 4];
+            for (int i = 0; i < 4; i++)
+                for (int j = 0; j < 4; j++)
+                    nuevo[i, j] = this._tablero[i, j];
+            nuevo[fila0, col0] = nuevo[filaFicha, colFicha];
+            nuevo[filaFicha, colFicha] = 0;
+            CLEstado hijo = new CLEstado(nuevo);
+            hijo.nivel = this.nivel + 1;
+            hijo.padre = this;
+            return hijo;
+        }
         public List<CLEstado> GenerarHijos()
         {
             List<CLEstado> Respuesta = new List<CLEstado>();
             String pos0 = "";
-            int[,] aux = new int[3, 3];
-            for (int i = 0; i < 3; i++)
-                for (int j = 0; j < 3; j++)
+            int f = 0, c = 0;
+            for (int i = 0; i < 4; i++)
+                for (int j = 0; j < 4; j++)
                     if (this._tablero[i, j] == 0)
                     {
                         pos0 = i.ToString() + j.ToString();
+                        f = i;
+                        c = j;
                     }
-            CLEstado A = new CLEstado();
             switch (pos0)
             {
-                case "00":
-                    A = new CLEstado(this._tablero[0, 1],
-                                             this._tablero[0, 0],
-                                             this._tablero[0, 2],
-                                             this._tablero[1, 0],
-                                             this._tablero[1, 1],
-                                             this._tablero[1, 2],
-                                             this._tablero[2, 0],
-                                             this._tablero[2, 1],
-                                             this._tablero[2, 2]);
-                    A.nivel = this.nivel + 1;
-                    A.padre = this;
-                    Respuesta.Add(A);
-                    A = new CLEstado(this._tablero[1, 0],
-                                     this._tablero[0, 1],
-                                     this._tablero[0, 2],
-                                     this._tablero[0, 0],
-                                     this._tablero[1, 1],
-                                     this._tablero[1, 2],
-                                     this._tablero[2, 0],
-                                     this._tablero[2, 1],
-                                     this._tablero[2, 2]);
-                    A.nivel = this.nivel + 1;
-                    A.padre = this;
-                    Respuesta.Add(A);
+                // ----- Fila 0 -----
+                case "00": // esquina superior izquierda
+                    Respuesta.Add(CrearHijo(f, c, 0, 1)); // derecha
+                    Respuesta.Add(CrearHijo(f, c, 1, 0)); // abajo
                     break;
                 case "01":
-                    A = new CLEstado(this._tablero[0, 1],
-                                         this._tablero[0, 0],
-                                         this._tablero[0, 2],
-                                         this._tablero[1, 0],
-                                         this._tablero[1, 1],
-                                         this._tablero[1, 2],
-                                         this._tablero[2, 0],
-                                         this._tablero[2, 1],
-                                         this._tablero[2, 2]);
-                    A.nivel = this.nivel + 1;
-                    A.padre = this;
-                    Respuesta.Add(A);
-                    A = new CLEstado(this._tablero[0, 0],
-                                         this._tablero[1, 1],
-                                         this._tablero[0, 2],
-                                         this._tablero[1, 0],
-                                         this._tablero[0, 1],
-                                         this._tablero[1, 2],
-                                         this._tablero[2, 0],
-                                         this._tablero[2, 1],
-                                         this._tablero[2, 2]);
-                    A.nivel = this.nivel + 1;
-                    A.padre = this;
-                    Respuesta.Add(A);
-                    A = new CLEstado(this._tablero[0, 0],
-                                         this._tablero[0, 2],
-                                         this._tablero[0, 1],
-                                         this._tablero[1, 0],
-                                         this._tablero[1, 1],
-                                         this._tablero[1, 2],
-                                         this._tablero[2, 0],
-                                         this._tablero[2, 1],
-                                         this._tablero[2, 2]);
-                    A.nivel = this.nivel + 1;
-                    A.padre = this;
-                    Respuesta.Add(A);
+                    Respuesta.Add(CrearHijo(f, c, 0, 0)); // izquierda
+                    Respuesta.Add(CrearHijo(f, c, 0, 2)); // derecha
+                    Respuesta.Add(CrearHijo(f, c, 1, 1)); // abajo
                     break;
                 case "02":
-                    A = new CLEstado(this._tablero[0, 0],
-                                     this._tablero[0, 2],
-                                     this._tablero[0, 1],
-                                     this._tablero[1, 0],
-                                     this._tablero[1, 1],
-                                     this._tablero[1, 2],
-                                     this._tablero[2, 0],
-                                     this._tablero[2, 1],
-                                     this._tablero[2, 2]);
-                    A.nivel = this.nivel + 1;
-                    A.padre = this;
-                    Respuesta.Add(A);
-                    A = new CLEstado(this._tablero[0, 0],
-                                     this._tablero[0, 1],
-                                     this._tablero[0, 2],
-                                     this._tablero[1, 0],
-                                     this._tablero[1, 1],
-                                     this._tablero[1, 2],
-                                     this._tablero[2, 0],
-                                     this._tablero[2, 1],
-                                     this._tablero[2, 2]);
-                    A.nivel = this.nivel + 1;
-                    A.padre = this;
-                    Respuesta.Add(A);
+                    Respuesta.Add(CrearHijo(f, c, 0, 1)); // izquierda
+                    Respuesta.Add(CrearHijo(f, c, 0, 3)); // derecha
+                    Respuesta.Add(CrearHijo(f, c, 1, 2)); // abajo
                     break;
+                case "03": // esquina superior derecha
+                    Respuesta.Add(CrearHijo(f, c, 0, 2)); // izquierda
+                    Respuesta.Add(CrearHijo(f, c, 1, 3)); // abajo
+                    break;
+                // ----- Fila 1 -----
                 case "10":
-                    A = new CLEstado(this._tablero[0, 1],
-                                     this._tablero[0, 0],
-                                     this._tablero[0, 2],
-                                     this._tablero[1, 0],
-                                     this._tablero[1, 1],
-                                     this._tablero[1, 2],
-                                     this._tablero[2, 0],
-                                     this._tablero[2, 1],
-                                     this._tablero[2, 2]);
-                    A.nivel = this.nivel + 1;
-                    A.padre = this;
-                    Respuesta.Add(A);
-                    A = new CLEstado(this._tablero[0, 0],
-                                     this._tablero[0, 1],
-                                     this._tablero[0, 2],
-                                     this._tablero[1, 1],
-                                     this._tablero[1, 0],
-                                     this._tablero[1, 2],
-                                     this._tablero[2, 0],
-                                     this._tablero[2, 1],
-                                     this._tablero[2, 2]);
-                    A.nivel = this.nivel + 1;
-                    A.padre = this;
-                    Respuesta.Add(A);
-                    A = new CLEstado(this._tablero[0, 0],
-                                     this._tablero[0, 1],
-                                     this._tablero[0, 2],
-                                     this._tablero[2, 0],
-                                     this._tablero[1, 1],
-                                     this._tablero[1, 2],
-                                     this._tablero[1, 0],
-                                     this._tablero[2, 1],
-                                     this._tablero[2, 2]);
-                    A.nivel = this.nivel + 1;
-                    A.padre = this;
-                    Respuesta.Add(A);
+                    Respuesta.Add(CrearHijo(f, c, 0, 0)); // arriba
+                    Respuesta.Add(CrearHijo(f, c, 1, 1)); // derecha
+                    Respuesta.Add(CrearHijo(f, c, 2, 0)); // abajo
                     break;
                 case "11":
-                    A = new CLEstado(this._tablero[0, 0],
-                                     this._tablero[0, 1],
-                                     this._tablero[0, 2],
-                                     this._tablero[1, 1],
-                                     this._tablero[1, 0],
-                                     this._tablero[1, 2],
-                                     this._tablero[2, 0],
-                                     this._tablero[2, 1],
-                                     this._tablero[2, 2]);
-                    A.nivel = this.nivel + 1;
-                    A.padre = this;
-                    Respuesta.Add(A);
-                    A = new CLEstado(this._tablero[0, 0],
-                                     this._tablero[1, 1],
-                                     this._tablero[0, 2],
-                                     this._tablero[1, 0],
-                                     this._tablero[0, 1],
-                                     this._tablero[1, 2],
-                                     this._tablero[2, 0],
-                                     this._tablero[2, 1],
-                                     this._tablero[2, 2]);
-                    A.nivel = this.nivel + 1;
-                    A.padre = this;
-                    Respuesta.Add(A);
-                    A = new CLEstado(this._tablero[0, 0],
-                                     this._tablero[0, 1],
-                                     this._tablero[0, 2],
-                                     this._tablero[1, 0],
-                                     this._tablero[1, 2],
-                                     this._tablero[1, 1],
-                                     this._tablero[2, 0],
-                                     this._tablero[2, 1],
-                                     this._tablero[2, 2]);
-                    A.nivel = this.nivel + 1;
-                    A.padre = this;
-                    Respuesta.Add(A);
-                    A = new CLEstado(this._tablero[0, 0],
-                                     this._tablero[0, 1],
-                                     this._tablero[0, 2],
-                                     this._tablero[1, 0],
-                                     this._tablero[2, 1],
-                                     this._tablero[1, 2],
-                                     this._tablero[2, 0],
-                                     this._tablero[1, 1],
-                                     this._tablero[2, 2]);
-                    A.nivel = this.nivel + 1;
-                    A.padre = this;
-                    Respuesta.Add(A);
+                    Respuesta.Add(CrearHijo(f, c, 0, 1)); // arriba
+                    Respuesta.Add(CrearHijo(f, c, 1, 0)); // izquierda
+                    Respuesta.Add(CrearHijo(f, c, 1, 2)); // derecha
+                    Respuesta.Add(CrearHijo(f, c, 2, 1)); // abajo
                     break;
                 case "12":
-                    A = new CLEstado(this._tablero[0, 0],
-                                     this._tablero[0, 1],
-                                     this._tablero[1, 2],
-                                     this._tablero[1, 0],
-                                     this._tablero[1, 1],
-                                     this._tablero[0, 2],
-                                     this._tablero[2, 0],
-                                     this._tablero[2, 1],
-                                     this._tablero[2, 2]);
-                    A.nivel = this.nivel + 1;
-                    A.padre = this;
-                    Respuesta.Add(A);
-                    A = new CLEstado(this._tablero[0, 0],
-                                     this._tablero[0, 1],
-                                     this._tablero[0, 2],
-                                     this._tablero[1, 0],
-                                     this._tablero[1, 2],
-                                     this._tablero[1, 1],
-                                     this._tablero[2, 0],
-                                     this._tablero[2, 1],
-                                     this._tablero[2, 2]);
-                    A.nivel = this.nivel + 1;
-                    A.padre = this;
-                    Respuesta.Add(A);
-                    A = new CLEstado(this._tablero[0, 0],
-                                     this._tablero[0, 1],
-                                     this._tablero[0, 2],
-                                     this._tablero[1, 0],
-                                     this._tablero[1, 1],
-                                     this._tablero[2, 2],
-                                     this._tablero[2, 0],
-                                     this._tablero[2, 1],
-                                     this._tablero[1, 2]);
-                    A.nivel = this.nivel + 1;
-                    A.padre = this;
-                    Respuesta.Add(A);
+                    Respuesta.Add(CrearHijo(f, c, 0, 2)); // arriba
+                    Respuesta.Add(CrearHijo(f, c, 1, 1)); // izquierda
+                    Respuesta.Add(CrearHijo(f, c, 1, 3)); // derecha
+                    Respuesta.Add(CrearHijo(f, c, 2, 2)); // abajo
                     break;
+                case "13":
+                    Respuesta.Add(CrearHijo(f, c, 0, 3)); // arriba
+                    Respuesta.Add(CrearHijo(f, c, 1, 2)); // izquierda
+                    Respuesta.Add(CrearHijo(f, c, 2, 3)); // abajo
+                    break;
+                // ----- Fila 2 -----
                 case "20":
-                    A = new CLEstado(this._tablero[0, 0],
-                                     this._tablero[0, 1],
-                                     this._tablero[0, 2],
-                                     this._tablero[2, 0],
-                                     this._tablero[1, 1],
-                                     this._tablero[1, 2],
-                                     this._tablero[1, 0],
-                                     this._tablero[2, 1],
-                                     this._tablero[2, 2]);
-                    A.nivel = this.nivel + 1;
-                    A.padre = this;
-                    Respuesta.Add(A);
-                    A = new CLEstado(this._tablero[0, 0],
-                                     this._tablero[0, 1],
-                                     this._tablero[0, 2],
-                                     this._tablero[1, 0],
-                                     this._tablero[1, 1],
-                                     this._tablero[1, 2],
-                                     this._tablero[2, 1],
-                                     this._tablero[2, 0],
-                                     this._tablero[2, 2]);
-                    A.nivel = this.nivel + 1;
-                    A.padre = this;
-                    Respuesta.Add(A);
+                    Respuesta.Add(CrearHijo(f, c, 1, 0)); // arriba
+                    Respuesta.Add(CrearHijo(f, c, 2, 1)); // derecha
+                    Respuesta.Add(CrearHijo(f, c, 3, 0)); // abajo
                     break;
                 case "21":
-                    A = new CLEstado(this._tablero[0, 0],
-                                     this._tablero[0, 1],
-                                     this._tablero[0, 2],
-                                     this._tablero[1, 0],
-                                     this._tablero[1, 1],
-                                     this._tablero[1, 2],
-                                     this._tablero[2, 1],
-                                     this._tablero[2, 0],
-                                     this._tablero[2, 2]);
-                    A.nivel = this.nivel + 1;
-                    A.padre = this;
-                    Respuesta.Add(A);
-                    A = new CLEstado(this._tablero[0, 0],
-                                     this._tablero[0, 1],
-                                     this._tablero[0, 2],
-                                     this._tablero[1, 0],
-                                     this._tablero[2, 1],
-                                     this._tablero[1, 2],
-                                     this._tablero[2, 0],
-                                     this._tablero[1, 1],
-                                     this._tablero[2, 2]);
-                    A.nivel = this.nivel + 1;
-                    A.padre = this;
-                    Respuesta.Add(A);
-                    A = new CLEstado(this._tablero[0, 0],
-                                     this._tablero[0, 1],
-                                     this._tablero[0, 2],
-                                     this._tablero[1, 0],
-                                     this._tablero[1, 1],
-                                     this._tablero[1, 2],
-                                     this._tablero[2, 0],
-                                     this._tablero[2, 2],
-                                     this._tablero[2, 1]);
-                    A.nivel = this.nivel + 1;
-                    A.padre = this;
-                    Respuesta.Add(A);
+                    Respuesta.Add(CrearHijo(f, c, 1, 1)); // arriba
+                    Respuesta.Add(CrearHijo(f, c, 2, 0)); // izquierda
+                    Respuesta.Add(CrearHijo(f, c, 2, 2)); // derecha
+                    Respuesta.Add(CrearHijo(f, c, 3, 1)); // abajo
                     break;
                 case "22":
-                    A = new CLEstado(this._tablero[0, 0],
-                                     this._tablero[0, 1],
-                                     this._tablero[0, 2],
-                                     this._tablero[1, 0],
-                                     this._tablero[1, 1],
-                                     this._tablero[2, 2],
-                                     this._tablero[2, 0],
-                                     this._tablero[2, 1],
-                                     this._tablero[1, 2]);
-                    A.nivel = this.nivel + 1;
-                    A.padre = this;
-                    Respuesta.Add(A);
-                    A = new CLEstado(this._tablero[0, 0],
-                                     this._tablero[0, 1],
-                                     this._tablero[0, 2],
-                                     this._tablero[1, 0],
-                                     this._tablero[1, 1],
-                                     this._tablero[1, 2],
-                                     this._tablero[2, 0],
-                                     this._tablero[2, 2],
-                                     this._tablero[2, 1]);
-                    A.nivel = this.nivel + 1;
-                    A.padre = this;
-                    Respuesta.Add(A);
+                    Respuesta.Add(CrearHijo(f, c, 1, 2)); // arriba
+                    Respuesta.Add(CrearHijo(f, c, 2, 1)); // izquierda
+                    Respuesta.Add(CrearHijo(f, c, 2, 3)); // derecha
+                    Respuesta.Add(CrearHijo(f, c, 3, 2)); // abajo
+                    break;
+                case "23":
+                    Respuesta.Add(CrearHijo(f, c, 1, 3)); // arriba
+                    Respuesta.Add(CrearHijo(f, c, 2, 2)); // izquierda
+                    Respuesta.Add(CrearHijo(f, c, 3, 3)); // abajo
+                    break;
+                // ----- Fila 3 -----
+                case "30": // esquina inferior izquierda
+                    Respuesta.Add(CrearHijo(f, c, 2, 0)); // arriba
+                    Respuesta.Add(CrearHijo(f, c, 3, 1)); // derecha
+                    break;
+                case "31":
+                    Respuesta.Add(CrearHijo(f, c, 2, 1)); // arriba
+                    Respuesta.Add(CrearHijo(f, c, 3, 0)); // izquierda
+                    Respuesta.Add(CrearHijo(f, c, 3, 2)); // derecha
+                    break;
+                case "32":
+                    Respuesta.Add(CrearHijo(f, c, 2, 2)); // arriba
+                    Respuesta.Add(CrearHijo(f, c, 3, 1)); // izquierda
+                    Respuesta.Add(CrearHijo(f, c, 3, 3)); // derecha
+                    break;
+                case "33": // esquina inferior derecha
+                    Respuesta.Add(CrearHijo(f, c, 2, 3)); // arriba
+                    Respuesta.Add(CrearHijo(f, c, 3, 2)); // izquierda
                     break;
             }
             return Respuesta;
@@ -394,13 +180,14 @@ namespace Tarea_2_ia
             int piezasFueraDeLugar = 0;
             int[,] estadoMeta =
             {
-                { 1, 2, 3 },
-                { 4, 5, 6 },
-                { 7, 8, 0 }
+                {  1,  2,  3,  4 },
+                {  5,  6,  7,  8 },
+                {  9, 10, 11, 12 },
+                { 13, 14, 15,  0 }
             };
-            for (int fila = 0; fila < 3; fila++)
+            for (int fila = 0; fila < 4; fila++)
             {
-                for (int columna = 0; columna < 3; columna++)
+                for (int columna = 0; columna < 4; columna++)
                 {
                     if (_tablero[fila, columna] != 0 &&
                         _tablero[fila, columna] != estadoMeta[fila, columna])
@@ -415,23 +202,15 @@ namespace Tarea_2_ia
         public int H2()
         {
             int distanciaTotal = 0;
-            int[,] estadoMeta =
+            for (int fila = 0; fila < 4; fila++)
             {
-                { 1, 2, 3 },
-                { 4, 5, 6 },
-                { 7, 8, 0 }
-            };
-            for (int fila = 0; fila < 3; fila++)
-            {
-                for (int columna = 0; columna < 3; columna++)
+                for (int columna = 0; columna < 4; columna++)
                 {
                     int valor = _tablero[fila, columna];
                     if (valor == 0) continue;
-                    int filaMeta = 0, columnaMeta = 0;
-                    for (int i = 0; i < 3; i++)
-                        for (int j = 0; j < 3; j++)
-                            if (estadoMeta[i, j] == valor)
-                            { filaMeta = i; columnaMeta = j; }
+                    // En la meta, el valor v esta en fila (v-1)/4 y columna (v-1)%4
+                    int filaMeta = (valor - 1) / 4;
+                    int columnaMeta = (valor - 1) % 4;
                     distanciaTotal += Math.Abs(fila - filaMeta) + Math.Abs(columna - columnaMeta);
                 }
             }
@@ -441,49 +220,61 @@ namespace Tarea_2_ia
         private int H3()
         {
             if (EsFinal()) return 0;
+            // Borde del tablero en sentido horario (12 casillas en el 4x4)
             int[] borde =
             {
-                _tablero[0, 0], _tablero[0, 1], _tablero[0, 2],
-                _tablero[1, 2], _tablero[2, 2], _tablero[2, 1],
-                _tablero[2, 0], _tablero[1, 0]
+                _tablero[0, 0], _tablero[0, 1], _tablero[0, 2], _tablero[0, 3],
+                _tablero[1, 3], _tablero[2, 3], _tablero[3, 3], _tablero[3, 2],
+                _tablero[3, 1], _tablero[3, 0], _tablero[2, 0], _tablero[1, 0]
             };
+            // El mismo borde pero en el estado meta, para saber el sucesor correcto
+            int[] bordeMeta = { 1, 2, 3, 4, 8, 12, 0, 15, 14, 13, 9, 5 };
             int sumaS = 0;
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < 12; i++)
             {
                 int actual = borde[i];
                 if (actual == 0) continue;
-                int siguiente = borde[(i + 1) % 8];
-                int sucesorCorrecto = (actual == 8) ? 1 : actual + 1;
+                int siguiente = borde[(i + 1) % 12];
+                // Buscar el sucesor correcto de "actual" segun el borde meta
+                int sucesorCorrecto = 0;
+                for (int k = 0; k < 12; k++)
+                    if (bordeMeta[k] == actual)
+                        sucesorCorrecto = bordeMeta[(k + 1) % 12];
                 if (siguiente != sucesorCorrecto)
                     sumaS += 2;
             }
-            if (_tablero[1, 1] != 0)
+            // Penalizar si el hueco no esta en su casilla final
+            if (_tablero[3, 3] != 0)
                 sumaS += 1;
             return H2() + (3 * sumaS);
         }
 
         public bool EsFinal()
         {
-            bool res = false;
-            if (_tablero[0, 0] == 1 &&
-                _tablero[0, 1] == 2 &&
-                _tablero[0, 2] == 3 &&
-                _tablero[1, 0] == 4 &&
-                _tablero[1, 1] == 5 &&
-                _tablero[1, 2] == 6 &&
-                _tablero[2, 0] == 7 &&
-                _tablero[2, 1] == 8 &&
-                _tablero[2, 2] == 0)
+            int esperado = 1;
+            for (int i = 0; i < 4; i++)
             {
-                res = true;
+                for (int j = 0; j < 4; j++)
+                {
+                    // La ultima casilla debe ser 0, el resto 1..15 en orden
+                    if (esperado == 16)
+                    {
+                        if (_tablero[i, j] != 0) return false;
+                    }
+                    else if (_tablero[i, j] != esperado)
+                    {
+                        return false;
+                    }
+                    esperado++;
+                }
             }
-            return res;
+            return true;
         }
         public bool EsIgual(CLEstado a)
         {
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 4; i++)
             {
-                for (int j = 0; j < 3; j++)
+                for (int j = 0; j < 4; j++)
                 {
                     if (a.tablero[i, j] != this.tablero[i, j])
                     {
