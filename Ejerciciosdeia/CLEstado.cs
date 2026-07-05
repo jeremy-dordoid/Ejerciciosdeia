@@ -78,6 +78,8 @@ namespace Tarea_2_ia
             List<CLEstado> Respuesta = new List<CLEstado>();
             String pos0 = "";
             int f = 0, c = 0;
+
+            //busca donde anda el 0 pq sin el no asemos nada xd
             for (int i = 0; i < 4; i++)
                 for (int j = 0; j < 4; j++)
                     if (this._tablero[i, j] == 0)
@@ -86,93 +88,230 @@ namespace Tarea_2_ia
                         f = i;
                         c = j;
                     }
+
             switch (pos0)
             {
                 // ----- Fila 0 -----
-                case "00": // esquina superior izquierda
-                    Respuesta.Add(CrearHijo(f, c, 0, 1)); // derecha
-                    Respuesta.Add(CrearHijo(f, c, 1, 0)); // abajo
+
+                case "00":
+                    /*
+                     [*] [ ] [ ] [ ]
+                     [ ] [ ] [ ] [ ]
+                     [ ] [ ] [ ] [ ]
+                     [ ] [ ] [ ] [ ]
+
+                     solo puede ir derecha o abajo
+                    */
+                    Respuesta.Add(CrearHijo(f, c, 0, 1));
+                    Respuesta.Add(CrearHijo(f, c, 1, 0));
                     break;
+
                 case "01":
-                    Respuesta.Add(CrearHijo(f, c, 0, 0)); // izquierda
-                    Respuesta.Add(CrearHijo(f, c, 0, 2)); // derecha
-                    Respuesta.Add(CrearHijo(f, c, 1, 1)); // abajo
+                    /*
+                     [ ] [*] [ ] [ ]
+                     [ ] [ ] [ ] [ ]
+                     [ ] [ ] [ ] [ ]
+                     [ ] [ ] [ ] [ ]
+
+                     izq der y abajo nomas
+                    */
+                    Respuesta.Add(CrearHijo(f, c, 0, 0));
+                    Respuesta.Add(CrearHijo(f, c, 0, 2));
+                    Respuesta.Add(CrearHijo(f, c, 1, 1));
                     break;
+
                 case "02":
-                    Respuesta.Add(CrearHijo(f, c, 0, 1)); // izquierda
-                    Respuesta.Add(CrearHijo(f, c, 0, 3)); // derecha
-                    Respuesta.Add(CrearHijo(f, c, 1, 2)); // abajo
+                    /*
+                     [ ] [ ] [*] [ ]
+                     [ ] [ ] [ ] [ ]
+                     [ ] [ ] [ ] [ ]
+                     [ ] [ ] [ ] [ ]
+
+                     igual q el otro pero un cuadrito mas
+                    */
+                    Respuesta.Add(CrearHijo(f, c, 0, 1));
+                    Respuesta.Add(CrearHijo(f, c, 0, 3));
+                    Respuesta.Add(CrearHijo(f, c, 1, 2));
                     break;
-                case "03": // esquina superior derecha
-                    Respuesta.Add(CrearHijo(f, c, 0, 2)); // izquierda
-                    Respuesta.Add(CrearHijo(f, c, 1, 3)); // abajo
+
+                case "03":
+                    /*
+                     [ ] [ ] [ ] [*]
+                     [ ] [ ] [ ] [ ]
+                     [ ] [ ] [ ] [ ]
+                     [ ] [ ] [ ] [ ]
+
+                     eskinita xd
+                    */
+                    Respuesta.Add(CrearHijo(f, c, 0, 2));
+                    Respuesta.Add(CrearHijo(f, c, 1, 3));
                     break;
+
                 // ----- Fila 1 -----
+
                 case "10":
-                    Respuesta.Add(CrearHijo(f, c, 0, 0)); // arriba
-                    Respuesta.Add(CrearHijo(f, c, 1, 1)); // derecha
-                    Respuesta.Add(CrearHijo(f, c, 2, 0)); // abajo
+                    /*
+                     [ ] [ ] [ ] [ ]
+                     [*] [ ] [ ] [ ]
+                     [ ] [ ] [ ] [ ]
+                     [ ] [ ] [ ] [ ]
+
+                     arriba der abajo
+                    */
+                    Respuesta.Add(CrearHijo(f, c, 0, 0));
+                    Respuesta.Add(CrearHijo(f, c, 1, 1));
+                    Respuesta.Add(CrearHijo(f, c, 2, 0));
                     break;
+
                 case "11":
-                    Respuesta.Add(CrearHijo(f, c, 0, 1)); // arriba
-                    Respuesta.Add(CrearHijo(f, c, 1, 0)); // izquierda
-                    Respuesta.Add(CrearHijo(f, c, 1, 2)); // derecha
-                    Respuesta.Add(CrearHijo(f, c, 2, 1)); // abajo
+                    /*
+                     [ ] [ ] [ ] [ ]
+                     [ ] [*] [ ] [ ]
+                     [ ] [ ] [ ] [ ]
+                     [ ] [ ] [ ] [ ]
+
+                     el centro ya tiene todos los movimientos
+                    */
+                    Respuesta.Add(CrearHijo(f, c, 0, 1));
+                    Respuesta.Add(CrearHijo(f, c, 1, 0));
+                    Respuesta.Add(CrearHijo(f, c, 1, 2));
+                    Respuesta.Add(CrearHijo(f, c, 2, 1));
                     break;
+
                 case "12":
-                    Respuesta.Add(CrearHijo(f, c, 0, 2)); // arriba
-                    Respuesta.Add(CrearHijo(f, c, 1, 1)); // izquierda
-                    Respuesta.Add(CrearHijo(f, c, 1, 3)); // derecha
-                    Respuesta.Add(CrearHijo(f, c, 2, 2)); // abajo
+                    /*
+                     [ ] [ ] [ ] [ ]
+                     [ ] [ ] [*] [ ]
+                     [ ] [ ] [ ] [ ]
+                     [ ] [ ] [ ] [ ]
+                    */
+                    Respuesta.Add(CrearHijo(f, c, 0, 2));
+                    Respuesta.Add(CrearHijo(f, c, 1, 1));
+                    Respuesta.Add(CrearHijo(f, c, 1, 3));
+                    Respuesta.Add(CrearHijo(f, c, 2, 2));
                     break;
+
                 case "13":
-                    Respuesta.Add(CrearHijo(f, c, 0, 3)); // arriba
-                    Respuesta.Add(CrearHijo(f, c, 1, 2)); // izquierda
-                    Respuesta.Add(CrearHijo(f, c, 2, 3)); // abajo
+                    /*
+                     [ ] [ ] [ ] [ ]
+                     [ ] [ ] [ ] [*]
+                     [ ] [ ] [ ] [ ]
+                     [ ] [ ] [ ] [ ]
+                    */
+                    Respuesta.Add(CrearHijo(f, c, 0, 3));
+                    Respuesta.Add(CrearHijo(f, c, 1, 2));
+                    Respuesta.Add(CrearHijo(f, c, 2, 3));
                     break;
+
                 // ----- Fila 2 -----
+
                 case "20":
-                    Respuesta.Add(CrearHijo(f, c, 1, 0)); // arriba
-                    Respuesta.Add(CrearHijo(f, c, 2, 1)); // derecha
-                    Respuesta.Add(CrearHijo(f, c, 3, 0)); // abajo
+                    /*
+                     [ ] [ ] [ ] [ ]
+                     [ ] [ ] [ ] [ ]
+                     [*] [ ] [ ] [ ]
+                     [ ] [ ] [ ] [ ]
+                    */
+                    Respuesta.Add(CrearHijo(f, c, 1, 0));
+                    Respuesta.Add(CrearHijo(f, c, 2, 1));
+                    Respuesta.Add(CrearHijo(f, c, 3, 0));
                     break;
+
                 case "21":
-                    Respuesta.Add(CrearHijo(f, c, 1, 1)); // arriba
-                    Respuesta.Add(CrearHijo(f, c, 2, 0)); // izquierda
-                    Respuesta.Add(CrearHijo(f, c, 2, 2)); // derecha
-                    Respuesta.Add(CrearHijo(f, c, 3, 1)); // abajo
+                    /*
+                     [ ] [ ] [ ] [ ]
+                     [ ] [ ] [ ] [ ]
+                     [ ] [*] [ ] [ ]
+                     [ ] [ ] [ ] [ ]
+                    */
+                    Respuesta.Add(CrearHijo(f, c, 1, 1));
+                    Respuesta.Add(CrearHijo(f, c, 2, 0));
+                    Respuesta.Add(CrearHijo(f, c, 2, 2));
+                    Respuesta.Add(CrearHijo(f, c, 3, 1));
                     break;
+
                 case "22":
-                    Respuesta.Add(CrearHijo(f, c, 1, 2)); // arriba
-                    Respuesta.Add(CrearHijo(f, c, 2, 1)); // izquierda
-                    Respuesta.Add(CrearHijo(f, c, 2, 3)); // derecha
-                    Respuesta.Add(CrearHijo(f, c, 3, 2)); // abajo
+                    /*
+                     [ ] [ ] [ ] [ ]
+                     [ ] [ ] [ ] [ ]
+                     [ ] [ ] [*] [ ]
+                     [ ] [ ] [ ] [ ]
+
+                     aki me falle una ves por un case jajsj
+                    */
+                    Respuesta.Add(CrearHijo(f, c, 1, 2));
+                    Respuesta.Add(CrearHijo(f, c, 2, 1));
+                    Respuesta.Add(CrearHijo(f, c, 2, 3));
+                    Respuesta.Add(CrearHijo(f, c, 3, 2));
                     break;
+
                 case "23":
-                    Respuesta.Add(CrearHijo(f, c, 1, 3)); // arriba
-                    Respuesta.Add(CrearHijo(f, c, 2, 2)); // izquierda
-                    Respuesta.Add(CrearHijo(f, c, 3, 3)); // abajo
+                    /*
+                     [ ] [ ] [ ] [ ]
+                     [ ] [ ] [ ] [ ]
+                     [ ] [ ] [ ] [*]
+                     [ ] [ ] [ ] [ ]
+                    */
+                    Respuesta.Add(CrearHijo(f, c, 1, 3));
+                    Respuesta.Add(CrearHijo(f, c, 2, 2));
+                    Respuesta.Add(CrearHijo(f, c, 3, 3));
                     break;
+
                 // ----- Fila 3 -----
-                case "30": // esquina inferior izquierda
-                    Respuesta.Add(CrearHijo(f, c, 2, 0)); // arriba
-                    Respuesta.Add(CrearHijo(f, c, 3, 1)); // derecha
+
+                case "30":
+                    /*
+                     [ ] [ ] [ ] [ ]
+                     [ ] [ ] [ ] [ ]
+                     [ ] [ ] [ ] [ ]
+                     [*] [ ] [ ] [ ]
+
+                     eskina de abajo
+                    */
+                    Respuesta.Add(CrearHijo(f, c, 2, 0));
+                    Respuesta.Add(CrearHijo(f, c, 3, 1));
                     break;
+
                 case "31":
-                    Respuesta.Add(CrearHijo(f, c, 2, 1)); // arriba
-                    Respuesta.Add(CrearHijo(f, c, 3, 0)); // izquierda
-                    Respuesta.Add(CrearHijo(f, c, 3, 2)); // derecha
+                    /*
+                     [ ] [ ] [ ] [ ]
+                     [ ] [ ] [ ] [ ]
+                     [ ] [ ] [ ] [ ]
+                     [ ] [*] [ ] [ ]
+                    */
+                    Respuesta.Add(CrearHijo(f, c, 2, 1));
+                    Respuesta.Add(CrearHijo(f, c, 3, 0));
+                    Respuesta.Add(CrearHijo(f, c, 3, 2));
                     break;
+
                 case "32":
-                    Respuesta.Add(CrearHijo(f, c, 2, 2)); // arriba
-                    Respuesta.Add(CrearHijo(f, c, 3, 1)); // izquierda
-                    Respuesta.Add(CrearHijo(f, c, 3, 3)); // derecha
+                    /*
+                     [ ] [ ] [ ] [ ]
+                     [ ] [ ] [ ] [ ]
+                     [ ] [ ] [ ] [ ]
+                     [ ] [ ] [*] [ ]
+
+                     casi al final jeje
+                    */
+                    Respuesta.Add(CrearHijo(f, c, 2, 2));
+                    Respuesta.Add(CrearHijo(f, c, 3, 1));
+                    Respuesta.Add(CrearHijo(f, c, 3, 3));
                     break;
-                case "33": // esquina inferior derecha
-                    Respuesta.Add(CrearHijo(f, c, 2, 3)); // arriba
-                    Respuesta.Add(CrearHijo(f, c, 3, 2)); // izquierda
+
+                case "33":
+                    /*
+                     [ ] [ ] [ ] [ ]
+                     [ ] [ ] [ ] [ ]
+                     [ ] [ ] [ ] [ ]
+                     [ ] [ ] [ ] [*]
+
+                     solo arriba o izq pq ya no ai mas mundo xd
+                    */
+                    Respuesta.Add(CrearHijo(f, c, 2, 3));
+                    Respuesta.Add(CrearHijo(f, c, 3, 2));
                     break;
             }
+
             return Respuesta;
         }
         public int H1()
