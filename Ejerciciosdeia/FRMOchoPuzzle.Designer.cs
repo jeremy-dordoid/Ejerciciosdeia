@@ -41,17 +41,12 @@
             this.BTNDesordenar = new System.Windows.Forms.Button();
             this.TMRRelog = new System.Windows.Forms.Timer(this.components);
             this.LBLContador = new System.Windows.Forms.Label();
-            this.Generar1 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.button4 = new System.Windows.Forms.Button();
-            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
-            this.button5 = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
-            this.button7 = new System.Windows.Forms.Button();
-            this.button8 = new System.Windows.Forms.Button();
+            this.BTNGenerarHijos = new System.Windows.Forms.Button();
+            this.BTNEsFinal = new System.Windows.Forms.Button();
+            this.BTNHeuristicaH1 = new System.Windows.Forms.Button();
+            this.BTNHeuristicaH2 = new System.Windows.Forms.Button();
+            this.BTNHeuristicaH3 = new System.Windows.Forms.Button();
+            this.BTNAEstrella = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -60,8 +55,6 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.BTNOrdenar = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             this.SuspendLayout();
             // 
             // LBL07
@@ -168,7 +161,6 @@
             this.LBL21.TabIndex = 7;
             this.LBL21.Text = "10";
             this.LBL21.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.LBL21.Click += new System.EventHandler(this.LBL21_Click);
             // 
             // LBL20
             // 
@@ -210,123 +202,72 @@
             this.LBLContador.Size = new System.Drawing.Size(98, 106);
             this.LBLContador.TabIndex = 10;
             this.LBLContador.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.LBLContador.Click += new System.EventHandler(this.LBLContador_Click);
             // 
-            // Generar1
+            // BTNGenerarHijos
             // 
-            this.Generar1.Location = new System.Drawing.Point(520, 170);
-            this.Generar1.Margin = new System.Windows.Forms.Padding(2);
-            this.Generar1.Name = "Generar1";
-            this.Generar1.Size = new System.Drawing.Size(129, 42);
-            this.Generar1.TabIndex = 11;
-            this.Generar1.Text = "Generar";
-            this.Generar1.UseVisualStyleBackColor = true;
-            this.Generar1.Click += new System.EventHandler(this.button1_Click);
+            this.BTNGenerarHijos.Location = new System.Drawing.Point(520, 170);
+            this.BTNGenerarHijos.Margin = new System.Windows.Forms.Padding(2);
+            this.BTNGenerarHijos.Name = "BTNGenerarHijos";
+            this.BTNGenerarHijos.Size = new System.Drawing.Size(129, 42);
+            this.BTNGenerarHijos.TabIndex = 11;
+            this.BTNGenerarHijos.Text = "Generar Hijos";
+            this.BTNGenerarHijos.UseVisualStyleBackColor = true;
+            this.BTNGenerarHijos.Click += new System.EventHandler(this.BTNGenerarHijos_Click);
             // 
-            // button1
+            // BTNEsFinal
             // 
-            this.button1.Location = new System.Drawing.Point(529, 217);
-            this.button1.Margin = new System.Windows.Forms.Padding(2);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(115, 37);
-            this.button1.TabIndex = 12;
-            this.button1.Text = "Esfinal?";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            this.BTNEsFinal.Location = new System.Drawing.Point(529, 217);
+            this.BTNEsFinal.Margin = new System.Windows.Forms.Padding(2);
+            this.BTNEsFinal.Name = "BTNEsFinal";
+            this.BTNEsFinal.Size = new System.Drawing.Size(115, 37);
+            this.BTNEsFinal.TabIndex = 12;
+            this.BTNEsFinal.Text = "¿Es final?";
+            this.BTNEsFinal.UseVisualStyleBackColor = true;
+            this.BTNEsFinal.Click += new System.EventHandler(this.BTNEsFinal_Click);
             // 
-            // button2
+            // BTNHeuristicaH1
             // 
-            this.button2.Location = new System.Drawing.Point(529, 269);
-            this.button2.Margin = new System.Windows.Forms.Padding(2);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(115, 37);
-            this.button2.TabIndex = 13;
-            this.button2.Text = "Anchura Prioritaria";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.BTNHeuristicaH1.Location = new System.Drawing.Point(675, 18);
+            this.BTNHeuristicaH1.Margin = new System.Windows.Forms.Padding(2);
+            this.BTNHeuristicaH1.Name = "BTNHeuristicaH1";
+            this.BTNHeuristicaH1.Size = new System.Drawing.Size(95, 23);
+            this.BTNHeuristicaH1.TabIndex = 18;
+            this.BTNHeuristicaH1.Text = "Heurística H1";
+            this.BTNHeuristicaH1.UseVisualStyleBackColor = true;
+            this.BTNHeuristicaH1.Click += new System.EventHandler(this.BTNHeuristicaH1_Click);
             // 
-            // button3
+            // BTNHeuristicaH2
             // 
-            this.button3.Location = new System.Drawing.Point(529, 314);
-            this.button3.Margin = new System.Windows.Forms.Padding(2);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(56, 19);
-            this.button3.TabIndex = 14;
-            this.button3.Text = "button3";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.BTNHeuristicaH2.Location = new System.Drawing.Point(675, 52);
+            this.BTNHeuristicaH2.Margin = new System.Windows.Forms.Padding(2);
+            this.BTNHeuristicaH2.Name = "BTNHeuristicaH2";
+            this.BTNHeuristicaH2.Size = new System.Drawing.Size(95, 23);
+            this.BTNHeuristicaH2.TabIndex = 19;
+            this.BTNHeuristicaH2.Text = "Heurística H2";
+            this.BTNHeuristicaH2.UseVisualStyleBackColor = true;
+            this.BTNHeuristicaH2.Click += new System.EventHandler(this.BTNHeuristicaH2_Click);
             // 
-            // numericUpDown1
+            // BTNHeuristicaH3
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(590, 314);
-            this.numericUpDown1.Margin = new System.Windows.Forms.Padding(2);
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(53, 20);
-            this.numericUpDown1.TabIndex = 15;
-            this.numericUpDown1.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
+            this.BTNHeuristicaH3.Location = new System.Drawing.Point(675, 95);
+            this.BTNHeuristicaH3.Margin = new System.Windows.Forms.Padding(2);
+            this.BTNHeuristicaH3.Name = "BTNHeuristicaH3";
+            this.BTNHeuristicaH3.Size = new System.Drawing.Size(95, 23);
+            this.BTNHeuristicaH3.TabIndex = 20;
+            this.BTNHeuristicaH3.Text = "Heurística H3";
+            this.BTNHeuristicaH3.UseVisualStyleBackColor = true;
+            this.BTNHeuristicaH3.Click += new System.EventHandler(this.BTNHeuristicaH3_Click);
             // 
-            // button4
+            // BTNAEstrella
             // 
-            this.button4.Location = new System.Drawing.Point(662, 14);
-            this.button4.Margin = new System.Windows.Forms.Padding(2);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(67, 30);
-            this.button4.TabIndex = 16;
-            this.button4.Text = "metodo";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
-            // 
-            // numericUpDown2
-            // 
-            this.numericUpDown2.Location = new System.Drawing.Point(733, 21);
-            this.numericUpDown2.Margin = new System.Windows.Forms.Padding(2);
-            this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.Size = new System.Drawing.Size(53, 20);
-            this.numericUpDown2.TabIndex = 17;
-            // 
-            // button5
-            // 
-            this.button5.Location = new System.Drawing.Point(672, 70);
-            this.button5.Margin = new System.Windows.Forms.Padding(2);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(71, 19);
-            this.button5.TabIndex = 18;
-            this.button5.Text = "euristicoh1";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
-            // 
-            // button6
-            // 
-            this.button6.Location = new System.Drawing.Point(672, 104);
-            this.button6.Margin = new System.Windows.Forms.Padding(2);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(80, 19);
-            this.button6.TabIndex = 19;
-            this.button6.Text = "euristicoh2";
-            this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
-            // 
-            // button7
-            // 
-            this.button7.Location = new System.Drawing.Point(672, 147);
-            this.button7.Margin = new System.Windows.Forms.Padding(2);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(71, 19);
-            this.button7.TabIndex = 20;
-            this.button7.Text = "euristicoh3";
-            this.button7.UseVisualStyleBackColor = true;
-            this.button7.Click += new System.EventHandler(this.button7_Click);
-            // 
-            // button8
-            // 
-            this.button8.Location = new System.Drawing.Point(653, 182);
-            this.button8.Margin = new System.Windows.Forms.Padding(2);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(114, 19);
-            this.button8.TabIndex = 21;
-            this.button8.Text = "resolver euristicas";
-            this.button8.UseVisualStyleBackColor = true;
-            this.button8.Click += new System.EventHandler(this.button8_Click);
+            this.BTNAEstrella.Location = new System.Drawing.Point(666, 128);
+            this.BTNAEstrella.Margin = new System.Windows.Forms.Padding(2);
+            this.BTNAEstrella.Name = "BTNAEstrella";
+            this.BTNAEstrella.Size = new System.Drawing.Size(114, 23);
+            this.BTNAEstrella.TabIndex = 21;
+            this.BTNAEstrella.Text = "Resolver A*";
+            this.BTNAEstrella.UseVisualStyleBackColor = true;
+            this.BTNAEstrella.Click += new System.EventHandler(this.BTNAEstrella_Click);
             // 
             // label1
             // 
@@ -379,7 +320,6 @@
             this.label4.TabIndex = 28;
             this.label4.Text = "0";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // label5
             // 
@@ -422,7 +362,7 @@
             // 
             // BTNOrdenar
             // 
-            this.BTNOrdenar.Location = new System.Drawing.Point(520, 440);
+            this.BTNOrdenar.Location = new System.Drawing.Point(520, 324);
             this.BTNOrdenar.Margin = new System.Windows.Forms.Padding(2);
             this.BTNOrdenar.Name = "BTNOrdenar";
             this.BTNOrdenar.Size = new System.Drawing.Size(129, 42);
@@ -444,17 +384,12 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.button8);
-            this.Controls.Add(this.button7);
-            this.Controls.Add(this.button6);
-            this.Controls.Add(this.button5);
-            this.Controls.Add(this.numericUpDown2);
-            this.Controls.Add(this.button4);
-            this.Controls.Add(this.numericUpDown1);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.Generar1);
+            this.Controls.Add(this.BTNAEstrella);
+            this.Controls.Add(this.BTNHeuristicaH3);
+            this.Controls.Add(this.BTNHeuristicaH2);
+            this.Controls.Add(this.BTNHeuristicaH1);
+            this.Controls.Add(this.BTNEsFinal);
+            this.Controls.Add(this.BTNGenerarHijos);
             this.Controls.Add(this.LBLContador);
             this.Controls.Add(this.BTNDesordenar);
             this.Controls.Add(this.LBL22);
@@ -471,8 +406,7 @@
             this.Name = "FRMOchoPuzzle";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "8 Puzzle";
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
+            this.Load += new System.EventHandler(this.FRMOchoPuzzle_Load);
             this.ResumeLayout(false);
 
         }
@@ -491,17 +425,12 @@
         private System.Windows.Forms.Button BTNDesordenar;
         private System.Windows.Forms.Timer TMRRelog;
         private System.Windows.Forms.Label LBLContador;
-        private System.Windows.Forms.Button Generar1;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.NumericUpDown numericUpDown2;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Button button6;
-        private System.Windows.Forms.Button button7;
-        private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.Button BTNGenerarHijos;
+        private System.Windows.Forms.Button BTNEsFinal;
+        private System.Windows.Forms.Button BTNHeuristicaH1;
+        private System.Windows.Forms.Button BTNHeuristicaH2;
+        private System.Windows.Forms.Button BTNHeuristicaH3;
+        private System.Windows.Forms.Button BTNAEstrella;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;

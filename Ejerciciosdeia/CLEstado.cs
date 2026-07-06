@@ -291,7 +291,7 @@ namespace Tarea_2_ia
                      [ ] [ ] [ ] [ ]
                      [ ] [ ] [*] [ ]
 
-                     casi al final jeje
+                     casi al final juas juas
                     */
                     Respuesta.Add(CrearHijo(f, c, 2, 2));
                     Respuesta.Add(CrearHijo(f, c, 3, 1));
@@ -322,7 +322,7 @@ namespace Tarea_2_ia
                 {  1,  2,  3,  4 },
                 {  5,  6,  7,  8 },
                 {  9, 10, 11, 12 },
-                { 13, 14, 15,  0 }
+                { 13, 14, 15,  0 }  
             };
             for (int fila = 0; fila < 4; fila++)
             {
@@ -347,7 +347,7 @@ namespace Tarea_2_ia
                 {
                     int valor = _tablero[fila, columna];
                     if (valor == 0) continue;
-                    // En la meta, el valor v esta en fila (v-1)/4 y columna (v-1)%4
+                    
                     int filaMeta = (valor - 1) / 4;
                     int columnaMeta = (valor - 1) % 4;
                     distanciaTotal += Math.Abs(fila - filaMeta) + Math.Abs(columna - columnaMeta);
@@ -359,14 +359,15 @@ namespace Tarea_2_ia
         private int H3()
         {
             if (EsFinal()) return 0;
-            // Borde del tablero en sentido horario (12 casillas en el 4x4)
+            // Borde del tablero en sentido horario 12 casillas en el 4x4 en este caso como era en el 3x3 xd 
+            //nota 2 de jere en este caso no cuenta los del medio porque funciona de otra manera
             int[] borde =
             {
                 _tablero[0, 0], _tablero[0, 1], _tablero[0, 2], _tablero[0, 3],
                 _tablero[1, 3], _tablero[2, 3], _tablero[3, 3], _tablero[3, 2],
                 _tablero[3, 1], _tablero[3, 0], _tablero[2, 0], _tablero[1, 0]
             };
-            // El mismo borde pero en el estado meta, para saber el sucesor correcto
+            // El mismo borde pero en el estado meta, para saber el sucesor correcto asi que xd
             int[] bordeMeta = { 1, 2, 3, 4, 8, 12, 0, 15, 14, 13, 9, 5 };
             int sumaS = 0;
             for (int i = 0; i < 12; i++)
@@ -374,7 +375,7 @@ namespace Tarea_2_ia
                 int actual = borde[i];
                 if (actual == 0) continue;
                 int siguiente = borde[(i + 1) % 12];
-                // Buscar el sucesor correcto de "actual" segun el borde meta
+                // se busca el sucesor correcto de "actual" segun el borde metaaaaaaaaaaaaaaa
                 int sucesorCorrecto = 0;
                 for (int k = 0; k < 12; k++)
                     if (bordeMeta[k] == actual)
@@ -382,7 +383,7 @@ namespace Tarea_2_ia
                 if (siguiente != sucesorCorrecto)
                     sumaS += 2;
             }
-            // Penalizar si el hueco no esta en su casilla final
+            // Penalizar si al final no estacd
             if (_tablero[3, 3] != 0)
                 sumaS += 1;
             return H2() + (3 * sumaS);

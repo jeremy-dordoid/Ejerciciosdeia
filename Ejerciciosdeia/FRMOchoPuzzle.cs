@@ -85,7 +85,7 @@ namespace Tarea_2_ia
         {
 
             contador = 0;
-            TMRRelog.Interval = 1; 
+            TMRRelog.Interval = 500; 
             TMRRelog.Enabled = true;
 
         }
@@ -135,7 +135,7 @@ namespace Tarea_2_ia
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void BTNGenerarHijos_Click(object sender, EventArgs e)
         {
             CLEstado Inicial = ObtenerEstadoActual();
 
@@ -146,12 +146,7 @@ namespace Tarea_2_ia
 
         }
 
-        private void LBLContador_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button1_Click_1(object sender, EventArgs e)
+        private void BTNEsFinal_Click(object sender, EventArgs e)
         {
             CLEstado Inicial = ObtenerEstadoActual();
 
@@ -165,27 +160,6 @@ namespace Tarea_2_ia
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            CLEstado Inicial = ObtenerEstadoActual();
-
-            List<CLEstado> Solucion = CLAlgoritmosDeBusqueda.AnchuraPrioritaria(Inicial);
-
-            MessageBox.Show("Pasos encontrados: " + Solucion.Count);
-
-            if (Solucion.Count == 0)
-            {
-                MessageBox.Show("No se encontro solucion.");
-                return;
-            }
-
-
-
-            Solucion.Reverse();
-            _solucion = Solucion;
-            _pasoSolucion = 0;
-            _timerSolucion.Start();
-        }
 
         private void TimerSolucion_Tick(object sender, EventArgs e)
         {
@@ -205,52 +179,6 @@ namespace Tarea_2_ia
             _pasoSolucion++;
         }
 
-        private void button3_Click(object sender, EventArgs e)
-        {
-            CLEstado Inicial = ObtenerEstadoActual();
-
-            int limite = (int)numericUpDown1.Value;
-
-            List<CLEstado> Solucion = CLAlgoritmosDeBusqueda.ProfundidadLimitada(Inicial, limite);
-
-            if (Solucion.Count == 0)
-            {
-                MessageBox.Show("No se encontró solución con límite: " + limite);
-                return;
-            }
-
-            MessageBox.Show("Resolviendo ");
-
-            _solucion = Solucion;
-            _pasoSolucion = 0;
-            _timerSolucion.Start();
-        }
-
-        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
-        {
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            CLEstado Inicial = ObtenerEstadoActual();
-
-            int limite = (int)numericUpDown2.Value;
-
-            List<CLEstado> Solucion = CLAlgoritmosDeBusqueda.ProfundidadIterativa(Inicial, limite);
-
-            if (Solucion.Count == 0)
-            {
-                MessageBox.Show("No se encontró solución con límite: " + limite);
-                return;
-            }
-
-            MessageBox.Show("Pasos encontrados: " + (Solucion.Count - 2));
-
-            _solucion = Solucion;
-            _pasoSolucion = 0;
-            _timerSolucion.Start();
-        }
-
         // Lee las 16 celdas de la pantalla y arma el estado 4x4
         private CLEstado ObtenerEstadoActual()
         {
@@ -262,25 +190,25 @@ namespace Tarea_2_ia
             return new CLEstado(valores);
         }
 
-        private void button5_Click(object sender, EventArgs e)
+        private void BTNHeuristicaH1_Click(object sender, EventArgs e)
         {
             CLEstado estado = ObtenerEstadoActual();
             MessageBox.Show("H1 (fichas mal colocadas) = " + estado.H1());
         }
 
-        private void button6_Click(object sender, EventArgs e)
+        private void BTNHeuristicaH2_Click(object sender, EventArgs e)
         {
             CLEstado estado = ObtenerEstadoActual();
             MessageBox.Show("H2 (distancia Manhattan) = " + estado.H2());
         }
 
-        private void button7_Click(object sender, EventArgs e)
+        private void BTNHeuristicaH3_Click(object sender, EventArgs e)
         {
             CLEstado estado = ObtenerEstadoActual();
             MessageBox.Show("H3 (Manhattan + penalización) = " + estado.h3);
         }
 
-        private void button8_Click(object sender, EventArgs e)
+        private void BTNAEstrella_Click(object sender, EventArgs e)
         {
             CLEstado Inicial = ObtenerEstadoActual();
 
@@ -300,12 +228,7 @@ namespace Tarea_2_ia
             _timerSolucion.Start();
         }
 
-        private void LBL21_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label4_Click(object sender, EventArgs e)
+        private void FRMOchoPuzzle_Load(object sender, EventArgs e)
         {
 
         }

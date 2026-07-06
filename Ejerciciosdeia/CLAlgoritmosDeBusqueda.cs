@@ -3,42 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Tarea_2_ia
 {
     public static class CLAlgoritmosDeBusqueda
     {
-        public static List<CLEstado> AnchuraPrioritaria(CLEstado Inicial)
-        {
-            List<CLEstado> Solucion = new List<CLEstado>();
-            List<CLEstado> Abiertos = new List<CLEstado>();
-            List<CLEstado> Cerrados = new List<CLEstado>();
-            List<CLEstado> Hijos = new List<CLEstado>();
-            CLEstado Actual = new CLEstado();
-            Abiertos.Add(Inicial);
-            Actual = Abiertos[0];
-            while (!Actual.EsFinal() && Abiertos.Count > 0)
-            {
-                Cerrados.Add(Actual);
-                Abiertos.RemoveAt(0);
-                Hijos = Actual.GenerarHijos();
-                Hijos = TratarRepetidos(Hijos, Abiertos, Cerrados);
-                foreach (CLEstado a in Hijos)
-                    Abiertos.Add(a);
-                Actual = Abiertos[0];
-            }
-            if (Actual.EsFinal())
-            {
-                Solucion.Add(Actual);
-                while (Actual.padre != null)
-                {
-                    Solucion.Add(Actual.padre);
-                    Actual = Actual.padre;
-                }
-            }
-            return Solucion;
-        }
+        
 
         public static List<CLEstado> TratarRepetidos(List<CLEstado> hijos, List<CLEstado> abiertos, List<CLEstado> cerrados)
         {
@@ -62,93 +32,6 @@ namespace Tarea_2_ia
             return HijosDepurado;
         }
 
-        public static List<CLEstado> ProfundidadLimitada(CLEstado Inicial, int Limite)
-        {
-            // Definición de Variables
-            List<CLEstado> Solucion = new List<CLEstado>();
-            List<CLEstado> Abiertos = new List<CLEstado>();
-            List<CLEstado> Cerrados = new List<CLEstado>();
-            List<CLEstado> Hijos = new List<CLEstado>();
-            CLEstado Actual = new CLEstado();
-            // Algoritmo
-            Abiertos.Add(Inicial);
-            Actual = Abiertos[Abiertos.Count - 1];
-            while (!Actual.EsFinal() && Abiertos.Count > 0)
-            {
-                Cerrados.Add(Actual);
-                Abiertos.RemoveAt(Abiertos.Count - 1);
-                if (Actual.nivel <= Limite)
-                {
-                    Hijos = Actual.GenerarHijos();
-                    Hijos = TratarRepetidosProfundidad(Hijos, Abiertos, Cerrados);
-                    foreach (CLEstado a in Hijos)
-                        Abiertos.Add(a);
-                }
-                if (Abiertos.Count == 0) break;
-                Actual = Abiertos[Abiertos.Count - 1];
-            }
-            if (Actual.EsFinal())
-            {
-                while (Actual != null)
-                {
-                    Solucion.Insert(0, Actual);
-                    Actual = Actual.padre;
-                }
-            }
-            return Solucion;
-        }
-
-        public static List<CLEstado> ProfundidadIterativa(CLEstado Inicial, int Limite)
-        {
-            int prof = 1;
-            while (prof < Limite)
-            {
-                List<CLEstado> Abiertos = new List<CLEstado>();
-                List<CLEstado> Cerrados = new List<CLEstado>();
-                List<CLEstado> Hijos = new List<CLEstado>();
-                CLEstado Actual = new CLEstado();
-
-                Abiertos.Add(Inicial);
-                Actual = Abiertos[Abiertos.Count - 1];
-
-                while (!Actual.EsFinal() && Abiertos.Count > 0)
-                {
-                    Abiertos.RemoveAt(Abiertos.Count - 1);
-                    Cerrados.Add(Actual);
-                    if (Actual.nivel <= prof)
-                    {
-                        Hijos = Actual.GenerarHijos();
-                        Hijos = TratarRepetidosProfundidad(Hijos, Abiertos, Cerrados);
-                        foreach (CLEstado a in Hijos)
-                            Abiertos.Add(a);
-                    }
-                    if (Abiertos.Count == 0) break;
-                    Actual = Abiertos[Abiertos.Count - 1];
-                }
-
-                if (Actual.EsFinal())
-                {
-                    List<CLEstado> Solucion = new List<CLEstado>();
-                    while (Actual != null)
-                    {
-                        Solucion.Insert(0, Actual);
-                        Actual = Actual.padre;
-                    }
-                    return Solucion;
-                }
-
-                if (!Actual.EsFinal())
-                {
-                    MessageBox.Show("No se encontró solución en profundidad: " + prof);
-                }
-                
-
-                prof++;
-            }
-
-            return new List<CLEstado>();
-        }
-
         public static List<CLEstado> AEstrella(CLEstado Inicial)
         {
             List<CLEstado> Solucion = new List<CLEstado>();
@@ -166,7 +49,7 @@ namespace Tarea_2_ia
                 Abiertos.RemoveAt(0);
 
                 Hijos = Actual.GenerarHijos();
-                Hijos = TratarRepetidosAEstrella(Hijos, Abiertos, Cerrados);
+                Hijos = TratarRepetidos(Hijos, Abiertos, Cerrados);
 
                 foreach (CLEstado hijo in Hijos)
                     Abiertos.Add(hijo);
@@ -189,60 +72,6 @@ namespace Tarea_2_ia
             }
 
             return Solucion;
-        }
-        //YA no lo uso los h1h2h3 estan en cl estado lsdfjklsfjlsdjflsdjfl por si acaso
-        private static List<CLEstado> TratarRepetidosAEstrella(List<CLEstado> hijos, List<CLEstado> abiertos, List<CLEstado> cerrados)
-        {
-            List<CLEstado> HijosDepurado = new List<CLEstado>();
-            foreach (CLEstado hijo in hijos)
-            {
-                bool encontrado = false;
-                foreach (var a in abiertos)
-                {
-                    if (hijo.EsIgual(a)) { encontrado = true; break; }
-                }
-                if (encontrado) continue;
-                foreach (var c in cerrados)
-                {
-                    if (hijo.EsIgual(c)) { encontrado = true; break; }
-                }
-                if (!encontrado)
-                    HijosDepurado.Add(hijo);
-            }
-            return HijosDepurado;
-        }
-
-        private static List<CLEstado> TratarRepetidosProfundidad(List<CLEstado> hijos, List<CLEstado> abiertos, List<CLEstado> cerrados)
-        {
-            List<CLEstado> HijosDepurados = new List<CLEstado>();
-            bool Encontrado = false;
-            foreach (CLEstado hijo in hijos)
-            {
-                Encontrado = false;
-                //Comparar con abiertos
-                foreach (var a in abiertos)
-                {
-                    if (hijo.EsIgual(a))
-                    {
-                        Encontrado = true; break;
-                    }
-                }
-                if (Encontrado) continue;
-                // comparar con cerrados
-                foreach (var c in cerrados)
-                {
-                    if (hijo.EsIgual(c))
-                    {
-                        if (hijo.nivel >= c.nivel)
-                            Encontrado = true; break;
-                    }
-                }
-                if (!Encontrado)
-                {
-                    HijosDepurados.Add(hijo);
-                }
-            }
-            return HijosDepurados;
         }
     }
 }

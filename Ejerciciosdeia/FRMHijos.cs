@@ -43,17 +43,25 @@ namespace Tarea_2_ia
         #endregion
 
         #region Métodos
+        // Matriz 4x4 con los labels en su posicion real dentro de la cuadricula.
+        // La columna derecha y la ultima fila estan nombradas al reves.
+        private Label[,] ObtenerTablero()
+        {
+            return new Label[4, 4]
+            {
+                { LBL00,  LBL01,  LBL02,  label3 },
+                { LBL10,  LBL11,  LBL12,  label2 },
+                { LBL20,  LBL21,  LBL22,  label1 },
+                { label7, label6, label5, label4 }
+            };
+        }
+
         private void TrasladarEstadoATablero(int apuntador)
         {
-            LBL00.Text = Hijos[apuntador].tablero[0, 0].ToString();
-            LBL01.Text = Hijos[apuntador].tablero[0, 1].ToString();
-            LBL02.Text = Hijos[apuntador].tablero[0, 2].ToString();
-            LBL10.Text = Hijos[apuntador].tablero[1, 0].ToString();
-            LBL11.Text = Hijos[apuntador].tablero[1, 1].ToString();
-            LBL12.Text = Hijos[apuntador].tablero[1, 2].ToString();
-            LBL20.Text = Hijos[apuntador].tablero[2, 0].ToString();
-            LBL21.Text = Hijos[apuntador].tablero[2, 1].ToString();
-            LBL22.Text = Hijos[apuntador].tablero[2, 2].ToString();
+            Label[,] labels = ObtenerTablero();
+            for (int i = 0; i < 4; i++)
+                for (int j = 0; j < 4; j++)
+                    labels[i, j].Text = Hijos[apuntador].tablero[i, j].ToString();
             LBLHijo.Text = "Hijo " + (apuntador + 1).ToString();
         }
         #endregion
@@ -82,6 +90,11 @@ namespace Tarea_2_ia
         }
 
         private void LBL01_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label6_Click(object sender, EventArgs e)
         {
 
         }
